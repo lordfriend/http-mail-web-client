@@ -1,0 +1,13 @@
+<div class="login-container">
+  <div class="login-dialog panel panel-default">
+    <div class="panel-body">
+      <form class="form-inline" name="loginForm" id="login_form" ng-submit="login()">
+        <div class="form-group" ng-class="{'has-error': loginForm.inviteCode.$invalid}">
+          <input type="text" class="form-control" ng-model="inviteCode" name="inviteCode" id="invite_code_input"
+                 placeholder="Please Input invite code" required/>
+        </div>
+        <button class="btn btn-default" type="submit">GO</button>
+      </form>
+    </div>
+  </div>
+</div>
