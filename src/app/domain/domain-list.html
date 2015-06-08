@@ -1,0 +1,23 @@
+<div class="col-sm-12">
+  <table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>id</th>
+      <th>domain</th>
+      <th>operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="domain in domains track by domain.id">
+      <td>{{domain.id}}</td>
+      <td>{{domain.name}}</td>
+      <td>
+        <a ui-sref="home.domain.edit({id: domain.id})">
+          <i class="fa fa-gear"></i>
+          Settings
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

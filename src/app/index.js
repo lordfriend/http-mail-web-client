@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('httpMailWebClient', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'ui.bootstrap'])
+angular.module('httpMailWebClient', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'ui.bootstrap', 'ncy-angular-breadcrumb', 'ngMockE2E'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('login', {
@@ -9,11 +9,49 @@ angular.module('httpMailWebClient', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSan
         controller: 'LoginCtrl'
       })
       .state('home', {
-        url: '/',
+        url: '',
         templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        ncyBreadcrumb: {
+          label: 'Home'
+        }
+      })
+      .state('home.domain', {
+        url: '/domain',
+        template: '<ui-view />',
+        abstract: true
+      })
+      .state('home.domain.list', {
+        url: '',
+        templateUrl: 'app/domain/domain-list.html',
+        controller: 'DomainListCtrl',
+        ncyBreadcrumb: {
+          label: 'Domains',
+          parent: 'home'
+        }
+      })
+      .state('home.domain.edit', {
+        url: '/:id',
+        templateUrl: 'app/domain/domain-edit.html',
+        controller: 'DomainEditCtrl',
+        ncyBreadcrumb: {
+          label: 'Domain: {{domainId}}',
+          parent: 'home.domain.list'
+        },
+        resolve: {
+          currentDomain: function (APIService, Session, $q, $stateParams) {
+            var code = Session.code;
+            if(code) {
+              return APIService.getDomain({code: code, id: $stateParams.id}).$promise;
+            } else {
+              return $q.reject('Invalid Code');
+            }
+
+          }
+        }
       });
 
-    $urlRouterProvider.otherwise('/');
+    //$urlRouterProvider.when('/', '/domain');
+    $urlRouterProvider.otherwise('/domain');
   })
 ;

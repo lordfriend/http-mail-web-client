@@ -1,0 +1,31 @@
+<div class="col-sm-12">
+  <form class="form-inline">
+    <div class="form-group">
+      <input class="form-control" type="text" ng-model="userQuery.email" placeholder="Search emails"/>
+    </div>
+    <button class="btn btn-default" type="button" ng-click="addUser()">CREATE USER</button>
+  </form>
+</div>
+<div class="col-sm-12">
+  <table class="table bordered table-hover">
+    <thead>
+    <tr>
+      <th>id</th>
+      <th>email</th>
+      <th>operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in users | filter:userQuery track by user.id ">
+      <td>{{user.id}}</td>
+      <td>{{user.email}}</td>
+      <td>
+        <a class="text-danger" ng-click="deleteUser(user.id)">
+          <i class="fa fa-times-circle"></i>
+          DELETE
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
