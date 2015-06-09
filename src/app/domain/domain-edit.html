@@ -4,6 +4,7 @@
       <input class="form-control" type="text" ng-model="userQuery.email" placeholder="Search emails"/>
     </div>
     <button class="btn btn-default" type="button" ng-click="addUser()">CREATE USER</button>
+    <button class="btn btn-danger pull-right" type="button" ng-click="deleteDomain()">DELETE THIS DOMAIN</button>
   </form>
 </div>
 <div class="col-sm-12">
@@ -20,7 +21,7 @@
       <td>{{user.id}}</td>
       <td>{{user.email}}</td>
       <td>
-        <a class="text-danger" ng-click="deleteUser(user.id)">
+        <a class="text-danger" ng-click="deleteUser(user)">
           <i class="fa fa-times-circle"></i>
           DELETE
         </a>

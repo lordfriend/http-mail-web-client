@@ -39,6 +39,13 @@ angular.module('httpMailWebClient')
         return [200, {result: [domain]}, resHeader, 'OK'];
       });
 
+    $httpBackend.whenDELETE(/^(?:\/api\/domain\/)\d+\?code=\S+/)
+      .respond(function(method, url, data, headers) {
+        var id = url.match(/^(?:\/api\/domain\/)(\d+)/)[1];
+        domains.splice(id, 1);
+        return [200, '', resHeader, 'OK'];
+      });
+
     $httpBackend.whenGET(/^(?:\/api\/user\/)\d+\?code=\S+/)
       .respond(function(method, url, data, header) {
         var domainId = url.match(/^(?:\/api\/user\/)(\d+)\?code=\S+/)[1];
@@ -52,6 +59,15 @@ angular.module('httpMailWebClient')
         }
 
         return [200, {result: users}, resHeader, 'OK'];
+      });
+
+    $httpBackend.whenDELETE(/^(?:\/api\/user\/)\d+\/\d+\?code=\S+/)
+      .respond(function(method, url, data, header) {
+        var match = url.match(/^(?:\/api\/user\/)(\d+)\/(\d+)\?code=\S+/);
+        //var domainId = match[1];
+        var userId = match[2];
+        users.splice(userId, 1);
+        return [200, '', resHeader, 'OK'];
       });
 
     $httpBackend.whenGET(/^(?:app\/)\S*/).passThrough();

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('DomainEditCtrl', function($scope, Session, APIService, currentDomain) {
+  .controller('DomainEditCtrl', function($scope, Session, APIService, currentDomain, $modal, $state) {
     var inviteCode = Session.code;
 
     $scope.currentDomain = currentDomain.result[0];
@@ -18,4 +18,62 @@ angular.module('httpMailWebClient')
       .then(function(data) {
         $scope.users = data.result;
       });
+
+
+    $scope.deleteDomain = function () {
+      var modalInstance = $modal.open({
+        templateUrl: 'app/components/delete-confirm-dialog/delete-confirm-dialog.html',
+        controller: 'DeleteConfirmDialogCtrl',
+        animation: true,
+        resolve: {
+          content: function() {
+            return 'This action <strong>CANNOT</strong> be undone. This will permanently delete the domain <strong>' +
+                    $scope.currentDomain.name + '</strong> and all users, emails under the domain.';
+          },
+          confirmText: function() {
+            return {
+              name: 'domain',
+              text: $scope.currentDomain.name
+            };
+          }
+        }
+      });
+
+      modalInstance.result.then(function() {
+        // delete domain
+        APIService.deleteDomain({
+          id: $scope.currentDomain.id,
+          code: inviteCode
+        }).$promise
+          .then(function() {
+            $state.go('home.domain.list');
+          });
+      }, angular.noop);
+    };
+
+    $scope.deleteUser = function(user) {
+      var modalInstance = $modal.open({
+        templateUrl: 'app/components/delete-confirm-dialog/delete-confirm-dialog.html',
+        controller: 'DeleteConfirmDialogCtrl',
+        animation: true,
+        resolve: {
+          content: function() {
+            return 'This action <strong>CANNOT</strong> be undone. This will permanently delete the user <strong>' +
+              user.email + '</strong> and all emails under associated with the user.';
+          },
+          confirmText: function() {
+            return {
+              name: 'user',
+              text: user.email
+            };
+          }
+        }
+      });
+
+      modalInstance.result.then(function() {
+        // delete user
+
+      }, angular.noop);
+    };
+
   });
