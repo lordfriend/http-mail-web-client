@@ -1,7 +1,7 @@
 /**
  * Created by bob on 6/8/15.
  */
-
+'use strict';
 angular.module('httpMailWebClient')
   .run(function($httpBackend) {
     var resHeader = {
@@ -27,9 +27,15 @@ angular.module('httpMailWebClient')
     $httpBackend.whenPOST(/^(?:\/api\/domain\?)code=\S+/)
       .respond(function(method, url, data, headers) {
         var id = domains.length;
-        domains.push(data);
-        data.id = id;
-        return [200, data, resHeader, 'OK'];
+        //console.log(data.domain);
+        var requestBody = JSON.parse(data);
+        var newDomain = {
+          name: requestBody.domain,
+          id: id
+        };
+        domains.push(newDomain);
+
+        return [200, newDomain, resHeader, 'OK'];
       });
 
     $httpBackend.whenGET(/^(?:\/api\/domain\/)\d+\?code=\S+/)
