@@ -76,4 +76,17 @@ angular.module('httpMailWebClient')
       }, angular.noop);
     };
 
+    $scope.addUser = function () {
+      var modalInstance = $modal.open({
+        templateUrl: 'app/components/add-user-dialog/add-user-dialog.html',
+        controller: 'AddUserDialogCtrl',
+        animation: true,
+        resolve: {
+          domain: function() {
+            return $scope.currentDomain.name;
+          }
+        }
+      });
+    }
+
   });

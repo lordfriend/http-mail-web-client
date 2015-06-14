@@ -1,6 +1,17 @@
 'use strict';
 
-angular.module('httpMailWebClient', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'ui.bootstrap', 'ncy-angular-breadcrumb', 'ngMockE2E'])
+angular.module('httpMailWebClient', [
+  'ngAnimate',
+  'ngCookies',
+  'ngTouch',
+  'ngSanitize',
+  'ngResource',
+  'ui.router',
+  'ui.bootstrap',
+  'ncy-angular-breadcrumb',
+  'ngMockE2E',
+  'ngPasswordComplexify',
+  'validation.match'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('login', {

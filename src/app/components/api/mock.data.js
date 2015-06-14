@@ -67,6 +67,11 @@ angular.module('httpMailWebClient')
         return [200, {result: users}, resHeader, 'OK'];
       });
 
+    $httpBackend.whenPOST(/^(?:\/api\/user\/)\d+\?code=\S+/)
+      .respond(function(method, url, data, header) {
+        return [200, '', resHeader, 'OK'];
+      });
+
     $httpBackend.whenDELETE(/^(?:\/api\/user\/)\d+\/\d+\?code=\S+/)
       .respond(function(method, url, data, header) {
         var match = url.match(/^(?:\/api\/user\/)(\d+)\/(\d+)\?code=\S+/);
