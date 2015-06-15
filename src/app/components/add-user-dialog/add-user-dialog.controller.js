@@ -6,4 +6,8 @@
 angular.module('httpMailWebClient')
   .controller('AddUserDialogCtrl', function($scope, domain) {
     $scope.domain = domain;
+
+    $scope.addUser = function () {
+
+    };
   });

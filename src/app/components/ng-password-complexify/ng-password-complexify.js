@@ -118,9 +118,9 @@ angular.module('ngPasswordComplexify', [])
       var defaults = {
         minimumChars: 8,
         strengthScaleFactor: 1,
-        banMode: 'strict' // (strict|loose)
+        banMode: 'strict', // (strict|loose)
+        minComplexity: MIN_COMPLEXITY
       };
-      console.log(angular.extend(defaults, options || {}));
       this.options = angular.extend(defaults, options || {});
     }
 
@@ -165,7 +165,7 @@ angular.module('ngPasswordComplexify', [])
       // Use natural log to produce linear scale
       complexity = Math.log(Math.pow(complexity, password.length)) * (1/this.options.strengthScaleFactor);
 
-      valid = (complexity > MIN_COMPLEXITY && password.length >= this.options.minimumChars);
+      valid = (complexity > this.options.minComplexity && password.length >= this.options.minimumChars);
 
       // Scale to percentage, so it can be used for a progress bar
       complexity = (complexity / MAX_COMPLEXITY) * 100;
@@ -189,8 +189,8 @@ angular.module('ngPasswordComplexify', [])
       restrict: 'A',
       require: 'ngModel',
       link: function($scope, $element, $attrs, ngModelCtrl) {
-        var complexify = Complexify();
-
+        var minComplexity = $attrs.ngPasswordComplexify;
+        var complexify = Complexify({minComplexity: minComplexity});
         function validComplexity() {
           complexify.evaluateSecurity(ngModelCtrl.$viewValue)
             .then(function(){
@@ -208,12 +208,41 @@ angular.module('ngPasswordComplexify', [])
   .directive('ngPasswordComplexifyMeter', function(Complexify) {
     return {
       restrict: 'EA',
+      scope: {
+        password: '='
+      },
       templateUrl: 'app/components/ng-password-complexify/ng-password-complexify-meter.html',
-      link: function($scope, $element, $attrs) {
+      link: function($scope) {
         var complexify = Complexify();
-        $scope.$watch($attrs.password, function(newValue) {
-
+        $scope.levelClass = {
+          'weak': 'progress-bar-danger',
+          'moderate': 'progress-bar-warning',
+          'strong': 'progress-bar-success'
+        };
+        $scope.$watch('password', function(newValue) {
+          if(newValue && newValue.trim()) {
+            complexify.evaluateSecurity(newValue)
+              .then(function (complexity) {
+                $scope.complexity = complexity;
+                $scope.level = calculateLevel(complexity);
+              }, function (complexity) {
+                $scope.complexity = complexity;
+                $scope.level = calculateLevel(complexity);
+              });
+          }
         });
+
+        function calculateLevel (complexity) {
+          var level;
+          if(complexity < 40) {
+            level = 'weak';
+          } else if(complexity >= 40 && complexity < 60) {
+            level = 'moderate';
+          } else {
+            level = 'strong';
+          }
+          return level;
+        }
       }
     }
   });

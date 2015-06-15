@@ -2,26 +2,33 @@
   <h3 class="modal-title">Add New User</h3>
 </div>
 <div class="modal-body">
-  <form class="form-horizontal">
+  <form class="form-horizontal" name="addUserForm">
     <p>
       Please add your user (e.g. john@{{domain}}) and Password, password should contains at least 8 characters.
     </p>
-    <div class="form-group">
+    <div class="form-group" ng-class="{'has-error': (addUserForm.userName.$invalid && addUserForm.userName.$dirty) || (addUserForm.userName.$invalid && submitting)}">
       <div class="col-sm-6">
         <div class="input-group">
-          <input type="text" class="form-control" ng-model="userName" placeholder="user name"/>
+          <input type="text" name="userName" class="form-control" ng-model="userName" placeholder="user name" required/>
           <span class="input-group-addon">@{{domain}}</span>
         </div>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-class="{'has-error': addUserForm.passwordConfirm.$error.match}">
       <div class="col-sm-6">
-        <input type="password" name="password" class="form-control" ng-model="password" placeholder="Password" ng-password-complexify=""/>
+        <input type="password" name="password" class="form-control" ng-model="password" placeholder="Password" ng-password-complexify="30"/>
+      </div>
+      <div class="col-sm-5">
+        <ng-password-complexify-meter password="password"></ng-password-complexify-meter>
       </div>
     </div>
-    <div class="form-group">
+    <p class="help-block">8 characters is a minimum, To make a password strong enough, including uppercase, lowercase and even special characters</p>
+    <div class="form-group" ng-class="{'has-error': addUserForm.passwordConfirm.$error.match}">
       <div class="col-sm-6">
-        <input type="password" name="passwordConfirm" class="form-control" ng-model="passwordConfirm" placeholder="Confirm Password" ng-password-complexify="" match="password"/>
+        <input type="password" name="passwordConfirm" class="form-control" ng-model="passwordConfirm" placeholder="Confirm Password" ng-password-complexify="30" match="password"/>
+      </div>
+      <div class="col-sm-5">
+        <p class="form-control-static text-danger" ng-show="addUserForm.passwordConfirm.$error.match">Password not match</p>
       </div>
     </div>
   </form>

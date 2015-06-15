@@ -34,6 +34,14 @@ a {
 #login_form {
   margin: 41px 20px;
 }
+
+.complexity-meter {
+  padding: 5px 0;
+  .progress {
+    margin-bottom: 0;
+  }
+}
+
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
 // injector
