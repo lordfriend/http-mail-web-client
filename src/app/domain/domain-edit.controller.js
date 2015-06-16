@@ -11,13 +11,17 @@ angular.module('httpMailWebClient')
     };
 
 
-    APIService.users({
-      code: inviteCode,
-      id: $scope.currentDomain.id
-    }).$promise
-      .then(function(data) {
-        $scope.users = data.result;
-      });
+    var refreshUserList = function () {
+
+      APIService.users({
+        code: inviteCode,
+        id: $scope.currentDomain.id
+      }).$promise
+        .then(function(data) {
+          $scope.users = data.result;
+        });
+
+    };
 
 
     $scope.deleteDomain = function () {
@@ -72,7 +76,7 @@ angular.module('httpMailWebClient')
 
       modalInstance.result.then(function() {
         // delete user
-
+        refreshUserList();
       }, angular.noop);
     };
 
@@ -83,10 +87,15 @@ angular.module('httpMailWebClient')
         animation: true,
         resolve: {
           domain: function() {
-            return $scope.currentDomain.name;
+            return $scope.currentDomain;
           }
         }
       });
-    }
 
+      modalInstance.result.then(function() {
+        refreshUserList();
+      }, angular.noop);
+    };
+
+    refreshUserList();
   });
