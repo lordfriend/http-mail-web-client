@@ -5,7 +5,7 @@
 
 angular.module('httpMailWebClient')
   .factory('APIService', function($resource){
-    return $resource('/api/:resource/:id', {id: '@id', code: '@code'}, {
+    return $resource('/api/:resource/:id/:uid', {id: '@id', code: '@code', uid: '@uid'}, {
       testInviteCode: {method: 'GET', params:{resource: 'invites'}, isArray: false},
       domains: {method: 'GET', params: {resource: 'domain'}, isArray: false},
       createDomain: {method: 'POST', params: {resource: 'domain'}, isArray: false},
@@ -14,7 +14,7 @@ angular.module('httpMailWebClient')
       users: {method: 'GET', params: {resource: 'user'}, isArray: false},
       addUser: {method: 'POST', params: {resource: 'user'}, isArray: false},
       getUser: {method: 'GET', params: {resource: 'user'}, isArray: false},
-      changeUserPassword: {method: 'PUT', params: {resource: 'user'}, isArray: false},
+      updateUser: {method: 'PUT', params: {resource: 'user'}, isArray: false},
       deleteUser: {method: 'DELETE', params: {resource: 'user'}, isArray: false}
     });
   });

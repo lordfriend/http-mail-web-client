@@ -21,6 +21,11 @@
       <td>{{user.id}}</td>
       <td>{{user.email}}</td>
       <td>
+        <a class="text-primary" ng-click="editUser(user)">
+          <i class="fa fa-gear"></i>
+          EDIT
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
         <a class="text-danger" ng-click="deleteUser(user)">
           <i class="fa fa-times-circle"></i>
           DELETE

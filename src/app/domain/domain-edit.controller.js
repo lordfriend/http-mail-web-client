@@ -63,7 +63,7 @@ angular.module('httpMailWebClient')
         resolve: {
           content: function() {
             return 'This action <strong>CANNOT</strong> be undone. This will permanently delete the user <strong>' +
-              user.email + '</strong> and all emails under associated with the user.';
+              user.email + '</strong> and all emails associated with the user.';
           },
           confirmText: function() {
             return {
@@ -76,8 +76,15 @@ angular.module('httpMailWebClient')
 
       modalInstance.result.then(function() {
         // delete user
-        refreshUserList();
-      }, angular.noop);
+        return APIService.deleteUser({
+          id: $scope.currentDomain.id,
+          uid: user.id,
+          code: inviteCode
+        }).$promise;
+      }, angular.noop)
+        .then(function() {
+          refreshUserList();
+        });
     };
 
     $scope.addUser = function () {
@@ -92,6 +99,25 @@ angular.module('httpMailWebClient')
         }
       });
 
+      modalInstance.result.then(function() {
+        refreshUserList();
+      }, angular.noop);
+    };
+
+    $scope.editUser = function(user) {
+      var modalInstance = $modal.open({
+        templateUrl: 'app/components/edit-user-dialog/edit-user-dialog.html',
+        controller: 'EditUserDialogCtrl',
+        animation: true,
+        resolve: {
+          user: function() {
+            return user;
+          },
+          domain: function() {
+            return $scope.currentDomain;
+          }
+        }
+      });
       modalInstance.result.then(function() {
         refreshUserList();
       }, angular.noop);
