@@ -17,7 +17,6 @@
 
 var httpProxy = require('http-proxy');
 var chalk = require('chalk');
-var https = require('https');
 
 /*
  * Location of your backend server
