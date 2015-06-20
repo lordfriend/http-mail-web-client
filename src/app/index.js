@@ -9,7 +9,6 @@ angular.module('httpMailWebClient', [
   'ui.router',
   'ui.bootstrap',
   'ncy-angular-breadcrumb',
-  'ngMockE2E',
   'ngPasswordComplexify',
   'validation.match'])
   .config(function ($stateProvider, $urlRouterProvider) {

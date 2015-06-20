@@ -17,15 +17,14 @@
 
 var httpProxy = require('http-proxy');
 var chalk = require('chalk');
+var https = require('https');
 
 /*
  * Location of your backend server
  */
-var proxyTarget = 'http://server/context/';
+var options = require('../config/proxy');
 
-var proxy = httpProxy.createProxyServer({
-  target: proxyTarget
-});
+var proxy = httpProxy.createProxyServer(options);
 
 proxy.on('error', function(error, req, res) {
   res.writeHead(500, {
@@ -48,10 +47,18 @@ function proxyMiddleware(req, res, next) {
    * for your needs. If you can, you could also check on a context in the url which
    * may be more reliable but can't be generic.
    */
-  if (/\.(html|css|js|png|jpg|jpeg|gif|ico|xml|rss|txt|eot|svg|ttf|woff|woff2|cur)(\?((r|v|rel|rev)=[\-\.\w]*)?)?$/.test(req.url)) {
-    next();
-  } else {
+  //if (/\.(html|css|js|png|jpg|jpeg|gif|ico|xml|rss|txt|eot|svg|ttf|woff|woff2|cur)(\?((r|v|rel|rev)=[\-\.\w]*)?)?$/.test(req.url)) {
+  //  next();
+  //} else {
+  //  proxy.web(req, res);
+  //}
+  var pathname = require('url').parse(req.url).pathname;
+  console.log('this is in middlware calls', req.url);
+  if (/^(?:\/api\/)/.test(pathname)) {
+    console.log('pass', pathname);
     proxy.web(req, res);
+  } else {
+    next();
   }
 }
 
@@ -63,5 +70,5 @@ function proxyMiddleware(req, res, next) {
 
 //module.exports = [proxyMiddleware];
 module.exports = function() {
-  return [];
+  return [proxyMiddleware];
 };

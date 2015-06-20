@@ -6,7 +6,7 @@
 angular.module('httpMailWebClient')
   .factory('APIService', function($resource){
     return $resource('/api/:resource/:id/:uid', {id: '@id', code: '@code', uid: '@uid'}, {
-      testInviteCode: {method: 'GET', params:{resource: 'invites'}, isArray: false},
+      testInviteCode: {method: 'GET', params:{resource: 'invite'}, isArray: false},
       domains: {method: 'GET', params: {resource: 'domain'}, isArray: false},
       createDomain: {method: 'POST', params: {resource: 'domain'}, isArray: false},
       getDomain: {method: 'GET', params: {resource: 'domain'}, isArray: false},

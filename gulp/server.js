@@ -6,7 +6,7 @@ var browserSyncSpa = require('browser-sync-spa');
 
 var util = require('util');
 
-var middleware = require('./proxy');
+var middleware = require('./proxy')();
 
 module.exports = function(options) {
 
@@ -24,7 +24,6 @@ module.exports = function(options) {
       baseDir: baseDir,
       routes: routes
     };
-
     if(middleware.length > 0) {
       server.middleware = middleware;
     }
