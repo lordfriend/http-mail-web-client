@@ -1,27 +1,36 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('DomainEditCtrl', function($scope, Session, APIService, currentDomain, $modal, $state) {
+  .controller('DomainEditCtrl', function($scope, Session, APIService, $modal, $state, $q, $stateParams) {
     var inviteCode = Session.code;
-
-    $scope.currentDomain = currentDomain.result[0];
-
-    $scope.userQuery = {
-      email: ''
-    };
-
 
     var refreshUserList = function () {
 
-      APIService.users({
+      return APIService.users({
         code: inviteCode,
         id: $scope.currentDomain.id
       }).$promise
         .then(function(data) {
           $scope.users = data.result;
+          return $scope.users;
         });
-
     };
+
+    $scope.listPromise = APIService.getDomain({code: inviteCode, id: $stateParams.id}).$promise
+      .then(function(data) {
+        $scope.currentDomain = data.result[0];
+        return $scope.currentDomain;
+      })
+      .then(function() {
+        return refreshUserList();
+      }, function() {
+        console.log('error')
+      });
+
+    $scope.userQuery = {
+      email: ''
+    };
+
 
 
     $scope.deleteDomain = function () {
@@ -83,7 +92,7 @@ angular.module('httpMailWebClient')
         }).$promise;
       }, angular.noop)
         .then(function() {
-          refreshUserList();
+          $scope.listPromise = refreshUserList();
         });
     };
 
@@ -100,7 +109,7 @@ angular.module('httpMailWebClient')
       });
 
       modalInstance.result.then(function() {
-        refreshUserList();
+        $scope.listPromise = refreshUserList();
       }, angular.noop);
     };
 
@@ -119,9 +128,8 @@ angular.module('httpMailWebClient')
         }
       });
       modalInstance.result.then(function() {
-        refreshUserList();
+        $scope.listPromise = refreshUserList();
       }, angular.noop);
     };
 
-    refreshUserList();
   });

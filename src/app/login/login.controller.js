@@ -4,9 +4,8 @@
 'use strict';
 angular.module('httpMailWebClient')
   .controller('LoginCtrl', function($scope, APIService, Session, $state) {
-    $scope.login = function () {
-      var code = $scope.inviteCode;
-      APIService.testInviteCode({
+    $scope.login = function (code) {
+      $scope.loginPromise = APIService.testInviteCode({
         code: code
       }).$promise
         .then(function() {

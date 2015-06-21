@@ -8,19 +8,29 @@ angular.module('httpMailWebClient')
     return {
       restrict: 'E',
       scope: {
-        promise: '='
+        promise: '=',
+        backdrop: '=',
+        minHeight: '@'
       },
       templateUrl: 'app/components/promise-loader/promise-loader.html',
       transclude: true,
-      link: function($scope, $element, $attrs) {
-        $scope.$watch('promise', function(newValue, oldValue) {
-          if(newValue!== oldValue && newValue)
-          newValue.promise
-            .then(function(result) {
-              return result;
-            }, function(reason){
-              return $q.reject(reason);
-            });
+      link: function($scope) {
+        $scope.minHeight = $scope.minHeight || '300px';
+
+        $scope.$watch('promise', function(newValue) {
+          if(newValue) {
+            $scope.isResolving = true;
+            console.log('promise resolving', newValue);
+            newValue
+              .then(function(result) {
+                console.log('promise resolved', result);
+                $scope.isResolving = false;
+                return result;
+              }, function(reason){
+                $scope.isResolving = false;
+                return $q.reject(reason);
+              });
+          }
         });
       }
     }

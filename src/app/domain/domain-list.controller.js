@@ -5,11 +5,11 @@ angular.module('httpMailWebClient')
     var inviteCode = Session.code;
 
     var getDomainList = function() {
-      APIService.domains({
+      $scope.domainsPromise = APIService.domains({
         code: inviteCode
       }).$promise
         .then(function(data) {
-          $scope.domains = data.result;
+          return $scope.domains = data.result;
         });
     };
 

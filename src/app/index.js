@@ -47,17 +47,6 @@ angular.module('httpMailWebClient', [
         ncyBreadcrumb: {
           label: 'Domain: {{domainId}}',
           parent: 'home.domain.list'
-        },
-        resolve: {
-          currentDomain: function (APIService, Session, $q, $stateParams) {
-            var code = Session.code;
-            if(code) {
-              return APIService.getDomain({code: code, id: $stateParams.id}).$promise;
-            } else {
-              return $q.reject('Invalid Code');
-            }
-
-          }
         }
       });
 
