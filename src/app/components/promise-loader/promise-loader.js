@@ -4,9 +4,11 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .run(function($templateRequest) {
-
-    $templateRequest('app/components/promise-loader/promise-loader.html');
+  .run(function($http, $templateCache) {
+    $http.get('app/components/promise-loader/promise-loader.html')
+      .then(function(result) {
+        $templateCache.put('app/components/promise-loader/promise-loader.html', result.data);
+      }, angular.noop);
   })
   .directive('promiseLoader', function($q, $templateCache) {
     return {
@@ -16,7 +18,7 @@ angular.module('httpMailWebClient')
         var template = $templateCache.get('app/components/promise-loader/promise-loader.html');
         if(template) {
           var content = tElement.children().detach();
-          var templateObj = $(template[1]);
+          var templateObj = $(template);
           tElement.append(templateObj);
           templateObj.children('.content-wrapper').append(content);
           return function promiseLoaderLink ($scope, $element, $attrs) {
