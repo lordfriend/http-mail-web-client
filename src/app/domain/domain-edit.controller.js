@@ -52,16 +52,16 @@ angular.module('httpMailWebClient')
         }
       });
 
-      modalInstance.result.then(function() {
+      $scope.listPromise = modalInstance.result.then(function() {
         // delete domain
-        APIService.deleteDomain({
+        return APIService.deleteDomain({
           id: $scope.currentDomain.id,
           code: inviteCode
         }).$promise
           .then(function() {
-            $state.go('home.domain.list');
+            return $state.go('home.domain.list');
           });
-      }, angular.noop);
+      });
     };
 
     $scope.deleteUser = function(user) {
@@ -83,16 +83,16 @@ angular.module('httpMailWebClient')
         }
       });
 
-      modalInstance.result.then(function() {
+      $scope.listPromise = modalInstance.result.then(function() {
         // delete user
         return APIService.deleteUser({
           id: $scope.currentDomain.id,
           uid: user.id,
           code: inviteCode
         }).$promise;
-      }, angular.noop)
+      })
         .then(function() {
-          $scope.listPromise = refreshUserList();
+          return refreshUserList();
         });
     };
 
@@ -108,9 +108,9 @@ angular.module('httpMailWebClient')
         }
       });
 
-      modalInstance.result.then(function() {
-        $scope.listPromise = refreshUserList();
-      }, angular.noop);
+      $scope.listPromise = modalInstance.result.then(function() {
+        return refreshUserList();
+      });
     };
 
     $scope.editUser = function(user) {
@@ -127,9 +127,9 @@ angular.module('httpMailWebClient')
           }
         }
       });
-      modalInstance.result.then(function() {
-        $scope.listPromise = refreshUserList();
-      }, angular.noop);
+      $scope.listPromise = modalInstance.result.then(function() {
+        return refreshUserList();
+      });
     };
 
   });

@@ -13,7 +13,7 @@ angular.module('httpMailWebClient')
         password: $scope.password
       };
 
-      APIService.addUser(angular.extend({
+      $scope.addUserPromise = APIService.addUser(angular.extend({
         code: inviteCode,
         id: domain.id
       }, user)).$promise

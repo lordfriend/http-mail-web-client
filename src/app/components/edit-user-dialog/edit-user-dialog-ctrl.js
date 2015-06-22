@@ -10,7 +10,7 @@ angular.module('httpMailWebClient')
     var inviteCode = Session.code;
     $scope.updateUser = function () {
 
-      APIService.updateUser({
+      $scope.editUserPromise = APIService.updateUser({
         code: inviteCode,
         id: domain.id,
         uid: user.id,

@@ -6,7 +6,7 @@ angular.module('httpMailWebClient')
   .controller('AddDomainDialogCtrl', function($scope, $modalInstance, APIService, Session) {
     var inviteCode = Session.code;
     $scope.addDomain = function() {
-      APIService.createDomain({
+      $scope.addDomainPromise = APIService.createDomain({
         code: inviteCode,
         domain: $scope.domainName.trim()
       }).$promise

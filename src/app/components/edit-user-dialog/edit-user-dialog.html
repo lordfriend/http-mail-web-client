@@ -1,33 +1,35 @@
 <div class="modal-header">
   <h3 class="modal-title">Edit User</h3>
 </div>
-<div class="modal-body">
-  <form class="form-horizontal" name="editUserForm">
-    <p>
-      Update the password for user {{user.email}}
-    </p>
+<promise-loader promise="editUserPromise" backdrop="true" min-height="100%">
+  <div class="modal-body">
+    <form class="form-horizontal" name="editUserForm">
+      <p>
+        Update the password for user {{user.email}}
+      </p>
 
-    <div class="form-group" ng-class="{'has-error': (editUserForm.password.$error.required || editUserForm.password.$error['pw-complexity']) && editUserForm.password.$dirty }">
-      <div class="col-sm-6">
-        <input type="password" name="password" class="form-control" ng-model="password" placeholder="Password" ng-password-complexify="30" required/>
+      <div class="form-group" ng-class="{'has-error': (editUserForm.password.$error.required || editUserForm.password.$error['pw-complexity']) && editUserForm.password.$dirty }">
+        <div class="col-sm-6">
+          <input type="password" name="password" class="form-control" ng-model="password" placeholder="Password" ng-password-complexify="30" required/>
+        </div>
+        <div class="col-sm-5">
+          <ng-password-complexify-meter password="password"></ng-password-complexify-meter>
+        </div>
       </div>
-      <div class="col-sm-5">
-        <ng-password-complexify-meter password="password"></ng-password-complexify-meter>
+      <p class="text-danger" ng-show="editUserForm.password.$error['pw-complexity'] && editUserForm.password.$dirty ">Password Not Strong Enough</p>
+      <p class="text-danger" ng-show="editUserForm.password.$error.required && editUserForm.password.$dirty ">Password is required</p>
+      <p class="help-block">8 characters is a minimum, To make a password strong enough, including uppercase, lowercase and even special characters</p>
+      <div class="form-group" ng-class="{'has-error': editUserForm.passwordConfirm.$error.match && editUserForm.passwordConfirm.$dirty }">
+        <div class="col-sm-6">
+          <input type="password" name="passwordConfirm" class="form-control" ng-model="passwordConfirm" placeholder="Confirm Password" ng-password-complexify="30" match="password" required/>
+        </div>
+        <div class="col-sm-5">
+          <p class="form-control-static text-danger" ng-show="editUserForm.passwordConfirm.$error.match && editUserForm.passwordConfirm.$dirty ">Password not match</p>
+        </div>
       </div>
-    </div>
-    <p class="text-danger" ng-show="editUserForm.password.$error['pw-complexity'] && editUserForm.password.$dirty ">Password Not Strong Enough</p>
-    <p class="text-danger" ng-show="editUserForm.password.$error.required && editUserForm.password.$dirty ">Password is required</p>
-    <p class="help-block">8 characters is a minimum, To make a password strong enough, including uppercase, lowercase and even special characters</p>
-    <div class="form-group" ng-class="{'has-error': editUserForm.passwordConfirm.$error.match && editUserForm.passwordConfirm.$dirty }">
-      <div class="col-sm-6">
-        <input type="password" name="passwordConfirm" class="form-control" ng-model="passwordConfirm" placeholder="Confirm Password" ng-password-complexify="30" match="password" required/>
-      </div>
-      <div class="col-sm-5">
-        <p class="form-control-static text-danger" ng-show="editUserForm.passwordConfirm.$error.match && editUserForm.passwordConfirm.$dirty ">Password not match</p>
-      </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
+</promise-loader>
 <div class="modal-footer">
   <button class="btn btn-primary" ng-click="updateUser()" ng-disabled="editUserForm.$invalid">Update User</button>
   <button class="btn btn-default" ng-click="$dismiss()">Cancel</button>

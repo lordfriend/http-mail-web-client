@@ -111,7 +111,6 @@ angular.module('ngPasswordComplexify', [])
     ];
 
     function Complexify(options) {
-      console.log(this instanceof Complexify);
       if(!(this instanceof Complexify)) {
         return new Complexify(options);
       }
