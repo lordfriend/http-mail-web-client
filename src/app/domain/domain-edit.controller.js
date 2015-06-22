@@ -34,7 +34,7 @@ angular.module('httpMailWebClient')
 
 
     $scope.deleteDomain = function () {
-      var modalInstance = $modal.open({
+      $modal.open({
         templateUrl: 'app/components/delete-confirm-dialog/delete-confirm-dialog.html',
         controller: 'DeleteConfirmDialogCtrl',
         animation: true,
@@ -48,20 +48,13 @@ angular.module('httpMailWebClient')
               name: 'domain',
               text: $scope.currentDomain.name
             };
+          },
+          domainId: function() {
+            return $scope.currentDomain.id;
           }
         }
       });
 
-      $scope.listPromise = modalInstance.result.then(function() {
-        // delete domain
-        return APIService.deleteDomain({
-          id: $scope.currentDomain.id,
-          code: inviteCode
-        }).$promise
-          .then(function() {
-            return $state.go('home.domain.list');
-          });
-      });
     };
 
     $scope.deleteUser = function(user) {

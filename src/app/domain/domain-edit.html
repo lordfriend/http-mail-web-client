@@ -9,7 +9,7 @@
 </div>
 <div class="col-sm-12">
   <promise-loader promise="listPromise" backdrop="true">
-    <table class="table table-hover">
+    <table class="table table-hover" ng-show="users && users.length > 0">
       <thead>
       <tr>
         <th>id</th>
@@ -35,5 +35,10 @@
       </tr>
       </tbody>
     </table>
+    <div class="no-content-area" ng-hide="!users || users.length > 0">
+      <div class="no-content-tips">
+        No user yet
+      </div>
+    </div>
   </promise-loader>
 </div>

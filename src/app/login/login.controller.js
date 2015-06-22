@@ -3,7 +3,7 @@
  */
 'use strict';
 angular.module('httpMailWebClient')
-  .controller('LoginCtrl', function($scope, APIService, Session, $state) {
+  .controller('LoginCtrl', function($scope, APIService, Session, $state, $q) {
     $scope.login = function (code) {
       $scope.loginPromise = APIService.testInviteCode({
         code: code
@@ -11,6 +11,9 @@ angular.module('httpMailWebClient')
         .then(function() {
           Session.updateInviteCode(code);
           $state.go('home');
+        }, function(reason) {
+          //console.log(reason);
+          return $q.reject(reason);
         });
     };
   });
