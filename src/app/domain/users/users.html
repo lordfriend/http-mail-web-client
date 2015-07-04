@@ -1,0 +1,26 @@
+<promise-loader promise="listPromise" backdrop="true">
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>email</th>
+      <th>operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in users | filter:userQuery track by user.id ">
+      <td>{{user.email}}</td>
+      <td>
+        <a class="text-primary" ng-click="editUser(user)">
+          <i class="fa fa-gear"></i>
+          EDIT
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="text-danger" ng-click="deleteUser(user)">
+          <i class="fa fa-times-circle"></i>
+          DELETE
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</promise-loader>

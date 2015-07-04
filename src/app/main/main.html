@@ -1,20 +1,29 @@
 <div ng-include="'app/components/navbar/navbar.html'"></div>
 
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-sm-12">
-      <div ncy-breadcrumb></div>
+    <div class="col-sm-4">
+      <div class="filter-input-wrapper">
+        <input type="text" class="form-control" ng-model="domainQuery.name" placeholder="filter domain..."/>
+      </div>
+      <promise-loader promise="domainsPromise" backdrop="true">
+        <ul class="nav domain-list">
+          <li ng-repeat="domain in domains | filter:domainQuery track by domain.id">
+            <a ui-sref="home.domain.user({id: domain.id})">
+              {{domain.name}}
+            </a>
+          </li>
+          <li>
+            <a ng-click="addDomain()">
+              Add a domain
+            </a>
+          </li>
+        </ul>
+      </promise-loader>
     </div>
   </div>
   <div class="row">
     <ui-view>
-      <div class="loading-container">
-        <div class="loader sk-spinner sk-spinner-three-bounce">
-          <div class="sk-bounce1"></div>
-          <div class="sk-bounce2"></div>
-          <div class="sk-bounce3"></div>
-        </div>
-      </div>
     </ui-view>
   </div>
 </div>

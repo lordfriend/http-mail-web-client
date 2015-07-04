@@ -1,0 +1,22 @@
+<div class="domain-overview">
+
+</div>
+<div class="domain-config">
+  <tabset>
+    <tab heading="User">
+      <div ng-include="'app/domain/users/users.html'" ng-controller="UsersCtrl"></div>
+    </tab>
+    <tab heading="DKIM Settings">
+      <div ng-include="'app/domain/dkim/dkim.html'" ng-controller="DkimCtrl"></div>
+    </tab>
+    <tab heading="BCC Settings" ng-if="level >= 5">
+      <div ng-include="'app/domain/bcc/bcc.html'" ng-controller="BccCtrl"></div>
+    </tab>
+    <tab heading="Alias Settings" ng-if="level >= 5">
+      <div ng-include="'app/domain/alias/alias.html'" ng-controller="AliasCtrl"></div>
+    </tab>
+    <tab heading="Transport Settings" ng-if="level >= 5">
+      <div ng-include="'app/domain/transport/transport.html'" ng-controller="TransportCtrl"></div>
+    </tab>
+  </tabset>
+</div>

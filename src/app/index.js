@@ -8,10 +8,9 @@ angular.module('httpMailWebClient', [
   'ngResource',
   'ui.router',
   'ui.bootstrap',
-  'ncy-angular-breadcrumb',
   'ngPasswordComplexify',
   'validation.match'])
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     $stateProvider
       .state('login', {
         url: '/login',
@@ -22,8 +21,10 @@ angular.module('httpMailWebClient', [
         url: '',
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
-        ncyBreadcrumb: {
-          label: 'Home'
+        resolve: {
+          token: function(TokenValidator) {
+            return TokenValidator();
+          }
         }
       })
       .state('home.domain', {
@@ -31,10 +32,15 @@ angular.module('httpMailWebClient', [
         template: '<ui-view />',
         abstract: true
       })
-      .state('home.domain.list', {
+      .state('home.domain.user', {
         url: '',
         templateUrl: 'app/domain/domain-list.html',
         controller: 'DomainListCtrl',
+        resolve: {
+          token: function(TokenValidator) {
+            return TokenValidator();
+          }
+        },
         ncyBreadcrumb: {
           label: 'Domains',
           parent: 'home'
@@ -44,6 +50,11 @@ angular.module('httpMailWebClient', [
         url: '/:id',
         templateUrl: 'app/domain/domain-edit.html',
         controller: 'DomainEditCtrl',
+        resolve: {
+          token: function(TokenValidator) {
+            return TokenValidator();
+          }
+        },
         ncyBreadcrumb: {
           label: 'Domain: {{domainId}}',
           parent: 'home.domain.list'
@@ -52,5 +63,8 @@ angular.module('httpMailWebClient', [
 
     //$urlRouterProvider.when('/', '/domain');
     $urlRouterProvider.otherwise('/domain');
+
+    $httpProvider.interceptors.push('SessionInterceptor');
+    $httpProvider.interceptors.push('SessionErrorHandler');
   })
 ;

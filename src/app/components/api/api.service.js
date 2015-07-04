@@ -1,11 +1,12 @@
 /**
- * Created by bob on 6/6/15.
+ * manage all restful api
  */
 'use strict';
 
 angular.module('httpMailWebClient')
   .factory('APIService', function($resource){
     return $resource('/api/:resource/:id/:uid', {id: '@id', code: '@code', uid: '@uid'}, {
+      validateToken: {method: 'GET', params: {resource: 'login'}, isArray: false},
       testInviteCode: {method: 'GET', params:{resource: 'invite'}, isArray: false},
       domains: {method: 'GET', params: {resource: 'domain'}, isArray: false},
       createDomain: {method: 'POST', params: {resource: 'domain'}, isArray: false},
