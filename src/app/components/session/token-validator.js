@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('httpWebMailClient')
+angular.module('httpMailWebClient')
   .factory('TokenValidator', function(APIService, $q) {
     return function () {
       var token = localStorage.getItem('token');

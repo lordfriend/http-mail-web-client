@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('httpWebMailClient')
+angular.module('httpMailWebClient')
   .controller('TransportCtrl', function($scope) {
 
   });

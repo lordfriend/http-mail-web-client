@@ -3,11 +3,11 @@
  */
 'use strict';
 
-angular.module('httpWebMailClient')
+angular.module('httpMailWebClient')
   .controller('DkimCtrl', function($scope, APIService) {
 
     var listDkim = function () {
-      return APIService.listDkim({
+      return APIService.getDkim({
         id: $scope.domain.id
       }).$promise
         .then(function(data) {
@@ -17,12 +17,12 @@ angular.module('httpWebMailClient')
     };
 
 
-    $scope.modifyDkim = function () {
-      $scope.dkimPromise = APIService.modifyDkim({
+    $scope.updateDkim = function () {
+      $scope.dkimPromise = APIService.updateDkim({
         selector: $scope.dkim.selector,
         private_key: $scope.private_key
       }).$promise
-        .then(function(data) {
+        .then(function() {
           return listDkim();
         })
     };

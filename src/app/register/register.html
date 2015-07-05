@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="register-dialog panel panel-default">
+    <promise-loader promise="registerPromise" backdrop="true" min-height="100%">
+      <div class="panel-body">
+        <form class="form-horizontal" name="registerForm" id="login_form" ng-submit="register()">
+          <div class="form-group" ng-class="{'has-error': registerForm.username.$invalid && registerForm.username.$dirty}">
+            <div class="col-sm-12">
+              <input type="text" class="form-control" name="username" ng-model="user.username" placeholder="Username" required/>
+            </div>
+          </div>
+          <p class="text-danger" ng-show="registerForm.username.$error.required && registerForm.username.$dirty">Username empty</p>
+          <div class="form-group" ng-class="{'has-error': registerForm.password.$invalid && registerForm.password.$dirty}">
+            <div class="col-sm-12">
+              <input type="password" class="form-control" name="password" ng-model="user.password" placeholder="Password" ng-password-complexify="30" required/>
+            </div>
+          </div>
+          <p class="text-danger" ng-show="registerForm.password.$error.required && registerForm.password.$dirty">Password empty</p>
+          <p class="text-danger" ng-show="registerForm.password.$error['ng-complexify'] && registerForm.password.$dirty">Password too weak</p>
+          <div class="form-group" ng-class="{'has-error': registerForm.passwordConfirm.$invalid && registerForm.passwordConfirm.$dirty}">
+            <div class="col-sm-12">
+              <input type="password" class="form-control" name="passwordConfirm" ng-model="passwordConfirm" placeholder="Confirm Password" match="user.password" required/>
+            </div>
+          </div>
+          <p class="text-danger" ng-show="registerForm.passwordConfirm.$error.match && registerForm.inviteCode.$dirty">Password not match</p>
+          <div class="form-group" ng-class="{'has-error': registerForm.inviteCode.$invalid && registerForm.inviteCode.$dirty}">
+            <div class="col-sm-12">
+              <input type="text" class="form-control" name="inviteCode" ng-model="user.code" placeholder="Invite Code" required/>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-12">
+              <button class="btn btn-primary form-control" type="submit" ng-disabled="registerForm.$invalid">Register</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </promise-loader>
+  </div>
+</div>

@@ -5,13 +5,11 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('EditUserDialogCtrl', function($scope, user, domain, APIService, Session, $modalInstance) {
+  .controller('EditUserDialogCtrl', function($scope, user, domain, APIService, $modalInstance) {
     $scope.user = user;
-    var inviteCode = Session.code;
     $scope.updateUser = function () {
 
       $scope.editUserPromise = APIService.updateUser({
-        code: inviteCode,
         id: domain.id,
         uid: user.id,
         password: $scope.password

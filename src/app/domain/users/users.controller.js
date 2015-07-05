@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('httpWebMailClient')
+angular.module('httpMailWebClient')
   .controller('UsersCtrl', function($scope, APIService) {
     var refreshUserList = function () {
 

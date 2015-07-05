@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('httpWebMailClient')
+angular.module('httpMailWebClient')
   .controller('DomainCtrl', function($scope) {
 
     $scope.level = localStorage.level || 1;

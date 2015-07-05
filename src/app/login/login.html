@@ -2,14 +2,31 @@
   <div class="login-dialog panel panel-default">
     <promise-loader promise="loginPromise" backdrop="true" min-height="100%">
       <div class="panel-body">
-          <form class="form-inline" name="loginForm" id="login_form" ng-submit="login(inviteCode)">
-            <div class="form-group" ng-class="{'has-error': loginForm.inviteCode.$invalid}">
-              <input type="text" class="form-control" ng-model="inviteCode" name="inviteCode" id="invite_code_input"
-                     placeholder="Please Input invite code" required/>
+        <form class="form-horizontal" name="loginForm" id="login_form" ng-submit="login()">
+          <div class="form-group" ng-class="{'has-error': loginForm.username.$invalid && loginForm.username.$dirty}">
+            <div class="col-sm-12">
+              <input type="text" class="form-control" name="username" ng-model="user.username" placeholder="Username"/>
             </div>
-            <button class="btn btn-default" type="submit">GO</button>
-          </form>
+          </div>
+          <p class="text-danger" ng-show="loginForm.username.$error.required && loginForm.username.$dirty">Username empty</p>
+          <div class="form-group" ng-class="{'has-error': loginForm.password.$invalid && loginForm.password.$dirty}">
+            <div class="col-sm-12">
+              <input type="password" class="form-control" name="password" ng-model="user.password" placeholder="Password"/>
+            </div>
+          </div>
+          <p class="text-danger" ng-show="loginForm.password.$error.required && loginForm.password.$dirty"></p>
+          <div class="form-group">
+            <div class="col-sm-12">
+              <button class="btn btn-primary form-control" type="submit" ng-disabled="loginForm.$invalid">Login</button>
+            </div>
+          </div>
+        </form>
       </div>
     </promise-loader>
+    <div class="panel-footer">
+      <p class="text-center">
+        <a ui-sref="register">Create Account</a>
+      </p>
+    </div>
   </div>
 </div>
