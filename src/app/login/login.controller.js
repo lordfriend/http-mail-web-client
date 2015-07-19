@@ -4,6 +4,7 @@
 'use strict';
 angular.module('httpMailWebClient')
   .controller('LoginCtrl', function($scope, APIService, $state, $q) {
+    $scope.invalidUserCredential = false;
     $scope.login = function () {
       if($scope.loginForm.$invalid) {
         return;
@@ -15,7 +16,9 @@ angular.module('httpMailWebClient')
           localStorage.setItem('level', data.level);
           $state.go('home.overview');
         }, function(reason) {
-          //console.log(reason);
+          $scope.loginForm.$setPristine();
+          $scope.invalidUserCredential = true;
+          console.log(reason);
           return $q.reject(reason);
         });
     };

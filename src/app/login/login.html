@@ -3,18 +3,19 @@
     <promise-loader promise="loginPromise" backdrop="true" min-height="100%">
       <div class="panel-body">
         <form class="form-horizontal" name="loginForm" id="login_form" ng-submit="login()">
+          <div class="alert alert-danger" ng-show="loginForm.$pristine && invalidUserCredential">Incorrect username or password</div>
           <div class="form-group" ng-class="{'has-error': loginForm.username.$invalid && loginForm.username.$dirty}">
             <div class="col-sm-12">
-              <input type="text" class="form-control" name="username" ng-model="user.username" placeholder="Username"/>
+              <input type="text" class="form-control" name="username" ng-model="user.username" placeholder="Username" required/>
             </div>
           </div>
           <p class="text-danger" ng-show="loginForm.username.$error.required && loginForm.username.$dirty">Username empty</p>
           <div class="form-group" ng-class="{'has-error': loginForm.password.$invalid && loginForm.password.$dirty}">
             <div class="col-sm-12">
-              <input type="password" class="form-control" name="password" ng-model="user.password" placeholder="Password"/>
+              <input type="password" class="form-control" name="password" ng-model="user.password" placeholder="Password" required/>
             </div>
           </div>
-          <p class="text-danger" ng-show="loginForm.password.$error.required && loginForm.password.$dirty"></p>
+          <p class="text-danger" ng-show="loginForm.password.$error.required && loginForm.password.$dirty">Password empty</p>
           <div class="form-group">
             <div class="col-sm-12">
               <button class="btn btn-primary form-control" type="submit" ng-disabled="loginForm.$invalid">Login</button>

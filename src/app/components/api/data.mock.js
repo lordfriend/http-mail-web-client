@@ -39,7 +39,7 @@ angular.module('httpMailWebClient')
       .respond(function(method, url, data, headers) {
         var user = JSON.parse(data);
 
-        return [200, {token: 'bd36d1ccb2884d6d', username: user.username, level: 5}];
+        return [200, {token: 'bd36d1ccb2884d6d', username: user.username, level: 5}, resHeader, 'ERROR'];
       });
 
     $httpBackend.whenPUT(/\/api\/login\?token=\S+/)
@@ -73,7 +73,7 @@ angular.module('httpMailWebClient')
       .respond(function(method, url, data, headers) {
         var id = url.match(/^(?:\/api\/domain\/)(\d+)/)[1];
         var domain = domains[id];
-        return [200, {result: [domain]}, resHeader, 'OK'];
+        return [200, {result: domain}, resHeader, 'OK'];
       });
 
     $httpBackend.whenDELETE(/^(?:\/api\/domain\/)\d+\?token=\S+/)
@@ -196,5 +196,5 @@ angular.module('httpMailWebClient')
     /**
      *  pass through
      */
-    $httpBackend.whenGET(/^(?:app\/)\S*/).passThrough();
+    $httpBackend.whenGET(/^(?:app|template)\/\S*/).passThrough();
   });

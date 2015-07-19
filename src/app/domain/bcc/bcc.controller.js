@@ -5,8 +5,8 @@
 
 angular.module('httpMailWebClient')
   .controller('BccCtrl', function($scope, APIService) {
-    var listBcc = function() {
-      return APIService.listBcc({
+    var listBCC = function() {
+      return APIService.listBCC({
         id: $scope.domain.id
       }).$promise
         .then(function(data) {
@@ -16,5 +16,5 @@ angular.module('httpMailWebClient')
 
 
 
-    listBcc();
+    listBCC();
   });

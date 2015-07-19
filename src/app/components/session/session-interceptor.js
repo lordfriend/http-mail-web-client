@@ -22,14 +22,14 @@ angular.module('httpMailWebClient')
       }
     ];
 
-
+    var urlPattern = /^(?:\/api)\/\S+/;
     return {
       // get token from localStorage and append query params into request config
       request: function (request) {
         var isExcluded = exclusion.some(function(entry){
           return entry.url === request.url && entry.method === request.method;
         });
-        if(isExcluded) {
+        if(isExcluded || !urlPattern.test(request.url)) {
           return request;
         }
         var token = localStorage.getItem('token');

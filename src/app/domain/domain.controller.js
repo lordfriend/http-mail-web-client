@@ -4,7 +4,8 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('DomainCtrl', function($scope) {
+  .controller('DomainCtrl', function($scope, domain) {
+    $scope.domain = domain;
 
     $scope.level = localStorage.level || 1;
 

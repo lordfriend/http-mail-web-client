@@ -11,7 +11,7 @@ angular.module('httpMailWebClient', [
   'ngPasswordComplexify',
   'ngMockE2E',
   'validation.match'])
-  .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
     $stateProvider
       .state('login', {
         url: '/login',
@@ -24,7 +24,7 @@ angular.module('httpMailWebClient', [
         controller: 'RegisterCtrl'
       })
       .state('home', {
-        url: '/',
+        url: '',
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         resolve: {
@@ -33,12 +33,25 @@ angular.module('httpMailWebClient', [
           }
         }
       })
+      .state('home.overview', {
+        url: '/',
+        templateUrl: 'app/overview/overview.html',
+        controller: 'OverviewCtrl'
+      })
       .state('home.domain', {
-        url: '/domain',
-        template: 'app/domain/domain.html',
-        controller: 'DomainCtrl'
+        url: '/domain/:id',
+        templateUrl: 'app/domain/domain.html',
+        controller: 'DomainCtrl',
+        resolve: {
+          domain: function(APIService, $stateParams) {
+            return APIService.getDomain({id: $stateParams.id}).$promise
+              .then(function(data) {
+                return data.result;
+              })
+          }
+        }
       });
-
+    $locationProvider.html5Mode(true);
     //$urlRouterProvider.when('/', '/domain');
     //$urlRouterProvider.otherwise('/domain');
 

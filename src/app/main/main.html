@@ -1,29 +1,60 @@
-<div ng-include="'app/components/navbar/navbar.html'"></div>
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="filter-input-wrapper">
-        <input type="text" class="form-control" ng-model="domainQuery.name" placeholder="filter domain..."/>
+<div class="content-container clearfix">
+  <div class="sidebar-nav">
+    <div class="sidebar-header">
+      <header class="sidebar-brand">
+        <a href="/">
+          萌えInbox
+        </a>
+      </header>
+      <div class="user-info clearfix">
+        <i class="user-avatar fa fa-user"></i>
+        <span class="username-holder">
+          {{username}}
+        </span>
+        <a href="" class="pull-right user-action">
+          <i class="fa fa-sign-out"></i>
+        </a>
+        <a href="" class="pull-right user-action">
+          <i class="fa fa-gear"></i>
+        </a>
       </div>
-      <promise-loader promise="domainsPromise" backdrop="true">
-        <ul class="nav domain-list">
-          <li ng-repeat="domain in domains | filter:domainQuery track by domain.id">
-            <a ui-sref="home.domain.user({id: domain.id})">
-              {{domain.name}}
-            </a>
-          </li>
-          <li>
-            <a ng-click="addDomain()">
-              Add a domain
-            </a>
-          </li>
-        </ul>
-      </promise-loader>
     </div>
+    <div class="sidebar-nav-wrapper">
+      <div class="sidebar-nav-menu">
+        <promise-loader promise="domainsPromise" backdrop="true" min-height="100%">
+          <ul class="nav domain-list">
+            <li ng-repeat="domain in domains | filter:domainQuery track by domain.id">
+              <a ui-sref="home.domain({id: domain.id})">
+                {{domain.name}}
+              </a>
+            </li>
+            <li>
+              <a ng-click="addDomain()">
+                Add a domain
+              </a>
+            </li>
+          </ul>
+        </promise-loader>
+      </div>
+      <div class="menu-title">
+        My Domains
+      </div>
+    </div>
+    <footer class="sidebar-footer">
+      <div class="filter-input-wrapper">
+        <input type="text" ng-model="domainQuery.name" placeholder="filter domain..."/>
+      </div>
+    </footer>
   </div>
-  <div class="row">
-    <ui-view>
-    </ui-view>
+  <div class="main-view-wrapper">
+    <header class="view-actionbar">
+
+    </header>
+    <div ui-view=""></div>
+    <footer class="footer">
+      <span>&copy;</span>
+      <span class="copyright-date">{{currentYear}}</span>
+      <span class="company-name">Box.moe</span>
+    </footer>
   </div>
 </div>

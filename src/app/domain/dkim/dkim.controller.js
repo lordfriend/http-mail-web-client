@@ -6,8 +6,8 @@
 angular.module('httpMailWebClient')
   .controller('DkimCtrl', function($scope, APIService) {
 
-    var listDkim = function () {
-      return APIService.getDkim({
+    var listDKIM = function () {
+      return APIService.getDKIM({
         id: $scope.domain.id
       }).$promise
         .then(function(data) {
@@ -17,15 +17,15 @@ angular.module('httpMailWebClient')
     };
 
 
-    $scope.updateDkim = function () {
-      $scope.dkimPromise = APIService.updateDkim({
+    $scope.updateDKIM = function () {
+      $scope.dkimPromise = APIService.updateDKIM({
         selector: $scope.dkim.selector,
         private_key: $scope.private_key
       }).$promise
         .then(function() {
-          return listDkim();
+          return listDKIM();
         })
     };
 
-    $scope.dkimPromise = listDkim();
+    $scope.dkimPromise = listDKIM();
   });

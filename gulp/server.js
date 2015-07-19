@@ -31,7 +31,17 @@ module.exports = function(options) {
     browserSync.instance = browserSync.init({
       startPath: '/',
       server: server,
-      browser: browser
+      browser: browser,
+      rewriteRules: [
+        {
+          match: /(?:\.\w+)$/,
+          fn: function (match) {
+            if(!match) {
+              return '/index.html'
+            }
+          }
+        }
+      ]
     });
   }
 
