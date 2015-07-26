@@ -1,21 +1,79 @@
-<promise-loader promise="addDomainPromise" min-height="100%" backdrop="true">
+
   <div class="modal-header">
-    <h3 class="modal-title">Add New Domain</h3>
+    <button type="button" class="close" ng-click="$dismiss()">
+      <span>&times;</span>
+    </button>
+    <h4 class="modal-title">{{vm.stepTitle[vm.step]}}</h4>
+
   </div>
   <div class="modal-body">
-    <form class="form-horizontal">
-      <p>
-        Please add your domain (like example.com)
-      </p>
-      <div class="form-group">
-        <div class="col-sm-12">
-          <input type="text" class="form-control" ng-model="domainName"/>
+    <div ng-switch="vm.step">
+      <div ng-switch-when="0">
+        <form class="form-horizontal">
+          <p>
+            Please add your domain (like example.com)
+          </p>
+          <div class="form-group">
+            <div class="col-sm-12">
+              <input type="text" class="form-control" ng-model="vm.domainName"/>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div ng-switch-when="1">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>At your DNS provider, Add the following DNS record</p>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Type</th>
+                <th>Host</th>
+                <th>Answer</th>
+                <th>TTL</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="server in vm.serverList track by $index">
+                <td>MX</td>
+                <td>{{vm.domainName}}</td>
+                <td>{{server.domain_name}}</td>
+                <td>300</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </form>
+      <div ng-switch-when="2">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>To Prevent your email identified as spam by other receiver, Your should add spf record at your DNS provider, Add the following DNS record to apply spf record.</p>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Type</th>
+                <th>Host</th>
+                <th>Answer</th>
+                <th>TTL</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>TXT</td>
+                <td>{{vm.domainName}}</td>
+                <td>v=spf1 include:_spf.catofes.com ~all</td>
+                <td>300</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="addDomain()">Add Domain</button>
-    <button class="btn btn-default" ng-click="$dismiss()">Cancel</button>
+    <button class="btn btn-primary" ng-hide="vm.step >= 2" ng-click="vm.next()">{{vm.step === 0 ? 'Add Domain': 'Next'}}</button>
+    <button class="btn btn-default" ng-click="vm.finish()">{{vm.step === 0 ? 'Cancel' : 'Finish'}}</button>
   </div>
-</promise-loader>

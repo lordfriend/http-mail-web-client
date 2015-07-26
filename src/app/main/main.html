@@ -11,10 +11,10 @@
         <span class="username-holder">
           {{username}}
         </span>
-        <a href="" class="pull-right user-action">
+        <a ng-click="logout()" class="pull-right user-action">
           <i class="fa fa-sign-out"></i>
         </a>
-        <a href="" class="pull-right user-action">
+        <a ui-sref="home.account" class="pull-right user-action">
           <i class="fa fa-gear"></i>
         </a>
       </div>
@@ -23,14 +23,9 @@
       <div class="sidebar-nav-menu">
         <promise-loader promise="domainsPromise" backdrop="true" min-height="100%">
           <ul class="nav domain-list">
-            <li ng-repeat="domain in domains | filter:domainQuery track by domain.id">
+            <li ng-repeat="domain in domains | filter:domainQuery track by domain.id" ui-sref-active="active">
               <a ui-sref="home.domain({id: domain.id})">
                 {{domain.name}}
-              </a>
-            </li>
-            <li>
-              <a ng-click="addDomain()">
-                Add a domain
               </a>
             </li>
           </ul>
@@ -40,17 +35,25 @@
         My Domains
       </div>
     </div>
-    <footer class="sidebar-footer">
+    <footer class="sidebar-footer clearfix">
       <div class="filter-input-wrapper">
         <input type="text" ng-model="domainQuery.name" placeholder="filter domain..."/>
+      </div>
+      <div class="add-domain-wrapper">
+        <a ng-click="addDomain()" class="add-domain-button">
+          <i class="fa fa-plus"></i>
+          <span>Add Domain</span>
+        </a>
       </div>
     </footer>
   </div>
   <div class="main-view-wrapper">
+    <div class="main-view" ui-view=""></div>
     <header class="view-actionbar">
-
+      <div class="actionbar-title">
+        <h3>{{actionBarTitle}}</h3>
+      </div>
     </header>
-    <div ui-view=""></div>
     <footer class="footer">
       <span>&copy;</span>
       <span class="copyright-date">{{currentYear}}</span>

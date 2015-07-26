@@ -42,7 +42,7 @@ angular.module('httpMailWebClient')
         return [200, {token: 'bd36d1ccb2884d6d', username: user.username, level: 5}, resHeader, 'ERROR'];
       });
 
-    $httpBackend.whenPUT(/\/api\/login\?token=\S+/)
+    $httpBackend.whenPUT(/\/api\/login\?code=\S+/)
       .respond(200, '', resHeader, 'OK');
 
     $httpBackend.whenDELETE(/\/api\/login\?token=\S+/)

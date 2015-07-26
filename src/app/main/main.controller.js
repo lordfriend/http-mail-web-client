@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('MainCtrl', function ($scope, APIService, $state) {
+  .controller('MainCtrl', function ($scope, APIService, $state, $modal, SessionManager) {
     $scope.currentYear = new Date().getFullYear();
     if($scope.currentYear !== 2015) {
       $scope.currentYear = '2015 - ' + $scope.currentYear;
@@ -21,7 +21,9 @@ angular.module('httpMailWebClient')
       var modalInstance = $modal.open({
         templateUrl: 'app/components/add-domain-dialog/add-domain-dialog.html',
         controller: 'AddDomainDialogCtrl',
-        animation: true
+        controllerAs: 'vm',
+        animation: true,
+        backdrop: 'static'
       });
 
       modalInstance.result.then(function() {
@@ -31,17 +33,10 @@ angular.module('httpMailWebClient')
 
     $scope.username = localStorage.getItem('username');
 
-    $scope.logout = function () {
-      APIService.logout({}).$promise
-        .then(function(){
-          localStorage.removeItem('token');
-          localStorage.removeItem('username');
-          localStorage.removeItem('level');
-          $state.go('login');
-        }, function(reason) {
-          return $q.reject(reason);
-        });
+    $scope.logout = SessionManager.logout;
 
+    $scope.setActionBarTitle = function(title) {
+      $scope.actionBarTitle = title;
     };
 
     getDomainList();

@@ -122,6 +122,14 @@ $nav-menu-shadow-length: 15px;
           border-bottom-color: lighten($sidebar-bg, 5%);
         }
       }
+
+      &.active > a {
+        color: #fff;
+        background-color: darken($sidebar-bg, 3%);
+        border-top-color: darken($sidebar-bg, 8%);
+        border-bottom-color: lighten($sidebar-bg, 5%);
+        border-left: 5px solid transparent;
+      }
     }
   }
 }
@@ -141,6 +149,7 @@ $nav-menu-shadow-length: 15px;
   position: relative;
   margin-left: 300px;
   padding-top: $actionbar-height;
+  padding-bottom: $footer-height;
   .footer {
     position: fixed;
     bottom: 0;
@@ -156,10 +165,59 @@ $nav-menu-shadow-length: 15px;
   }
 }
 
+.main-view {
+  padding: 20px 30px;
+  color: #696C6F;
+}
+
 .view-actionbar {
   position: fixed;
   top: 0;
   left: $sidebar-width;
   right: 0;
   height: $actionbar-height;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  color: rgb(105, 108, 111);
+}
+
+.actionbar-title {
+  float: left;
+  margin: 0 40px;
+  padding: 0;
+  height: $actionbar-height;
+  > h3 {
+    margin: 0;
+    padding: 0;
+    line-height: $actionbar-height;
+  }
+}
+
+.filter-input-wrapper {
+  float: left;
+  > input {
+    border: 1px solid #555;
+    background: $sidebar-bg;
+    outline: none;
+    transition: all 0.30s ease-in-out;
+
+    &:focus {
+      box-shadow: 0 0 5px rgb(54, 77, 182);
+      border-color: rgb(54, 77, 182);
+    }
+  }
+}
+.add-domain-wrapper {
+  float: left;
+  margin-left: 10px;
+  > a {
+    display: block;
+    padding: 3px;
+    color: $sidebar-font-color;
+    font-size: 12px;
+    &:focus,
+    &:hover {
+      color: #fff;
+    }
+  }
 }

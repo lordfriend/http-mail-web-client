@@ -10,3 +10,11 @@ $spinkit-spinner-color: #2e97ff;
    sass dependencies when defined in the bower.json of your dependencies */
 // bower:scss
 // endbower
+
+.panel-clean {
+  @include panel-variant(#fff, #696C6F, #fff, #fff);
+}
+
+.panel-shape {
+  border-radius: 0;
+}

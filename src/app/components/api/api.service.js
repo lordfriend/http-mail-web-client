@@ -42,6 +42,19 @@ angular.module('httpMailWebClient')
       // BCC Settings
       listBCC: {method: 'GET', params: {resource: 'bcc'}, isArray: false},
       addBCC: {method: 'POST', params: {resource: 'bcc'}, isArray: false},
-      getBCC: {method: 'GET', params: {resource: 'bcc'}, isArray: false}
+      getBCC: {method: 'GET', params: {resource: 'bcc'}, isArray: false},
+      deleteBCC: {method: 'DELETE', params: {resource: 'bcc'}, isArray: false},
+
+      // Alias Settings
+      listAlias: {method: 'GET', params: {resource: 'alias'}, isArray: false},
+      addAlias: {method: 'POST', params: {resource: 'alias'}, isArray: false},
+      getAlias: {method: 'GET', params: {resource: 'alias'}, isArray: false},
+      deleteAlias: {method: 'DELETE', params: {resource: 'alias'}, isArray: false},
+
+      // Transport Settings
+      listTransport: {method: 'GET', params: {resource: 'transport'}, isArray: false},
+      addTransport: {method: 'POST', params: {resource: 'transport'}, isArray: false},
+      getTransport: {method: 'GET', params: {resource: 'transport'}, isArray: false},
+      deleteTransport: {method: 'DELETE', params: {resource: 'transport'}, isArray: false}
     });
   });

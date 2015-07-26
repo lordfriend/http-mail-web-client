@@ -10,7 +10,8 @@ angular.module('httpMailWebClient', [
   'ui.bootstrap',
   'ngPasswordComplexify',
   'ngMockE2E',
-  'validation.match'])
+  'validation.match'
+])
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
     $stateProvider
       .state('login', {
@@ -32,6 +33,11 @@ angular.module('httpMailWebClient', [
             return TokenValidator();
           }
         }
+      })
+      .state('home.account', {
+        url: '/account',
+        templateUrl: 'app/account/account.html',
+        controller: 'AccountCtrl'
       })
       .state('home.overview', {
         url: '/',

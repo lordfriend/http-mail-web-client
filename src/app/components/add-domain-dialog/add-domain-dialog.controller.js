@@ -3,17 +3,54 @@
  */
 'use strict';
 angular.module('httpMailWebClient')
-  .controller('AddDomainDialogCtrl', function($scope, $modalInstance, APIService, Session) {
-    var inviteCode = Session.code;
-    $scope.addDomain = function() {
-      $scope.addDomainPromise = APIService.createDomain({
-        code: inviteCode,
-        domain: $scope.domainName.trim()
+  .controller('AddDomainDialogCtrl', function($scope, $modalInstance, APIService) {
+
+    var vm = this;
+
+    vm.stepTitle = [
+      'Add New Domain',
+      'Configure DNS',
+      'Add Spf Record'
+    ];
+
+    vm.step = 0;
+
+    vm.addDomain = function() {
+      vm.addDomainPromise = APIService.createDomain({
+        domain: vm.domainName.trim()
       }).$promise
         .then(function() {
-          $modalInstance.close();
+          vm.step++;
         }, function() {
           console.log('Failed to add domain');
         });
+    };
+
+    var getServerList = function () {
+      vm.serverListPromise = APIService.servers().$promise
+        .then(function(data) {
+          vm.serverList = data.result;
+        }, function() {
+
+        });
+    };
+
+    getServerList();
+
+    vm.next = function () {
+      if(vm.step === 0) {
+        vm.addDomain();
+      } else {
+        vm.step++;
+      }
+
+    };
+
+    vm.finish = function () {
+      if(vm.step === 0) {
+        $modalInstance.dismiss();
+      } else {
+        $modalInstance.close();
+      }
     };
   });

@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('UsersCtrl', function($scope, APIService) {
+  .controller('UsersCtrl', function($scope, APIService, $modal) {
     var refreshUserList = function () {
 
       return APIService.users({
@@ -37,17 +37,21 @@ angular.module('httpMailWebClient')
               name: 'user',
               text: user.email
             };
+          },
+          title: function() {
+            return 'Are you ABSOLUTELY sure?';
           }
         }
       });
 
-      $scope.listPromise = modalInstance.result.then(function() {
-        // delete user
-        return APIService.deleteUser({
-          id: $scope.domain.id,
-          uid: user.id
-        }).$promise;
-      })
+      $scope.listPromise = modalInstance.result
+        .then(function() {
+          // delete user
+          return APIService.deleteUser({
+            id: $scope.domain.id,
+            uid: user.id
+          }).$promise;
+        })
         .then(function() {
           return refreshUserList();
         });

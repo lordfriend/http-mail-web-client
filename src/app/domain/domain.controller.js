@@ -6,7 +6,7 @@
 angular.module('httpMailWebClient')
   .controller('DomainCtrl', function($scope, domain) {
     $scope.domain = domain;
-
+    $scope.setActionBarTitle(domain.name);
     $scope.level = localStorage.level || 1;
 
     $scope.deleteDomain = function () {

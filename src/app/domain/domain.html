@@ -1,8 +1,12 @@
 <div class="domain-overview">
-
+  <div class="panel panel-clean panel-shape">
+    <div class="panel-body">
+      You can config your domain or add users and other settings
+    </div>
+  </div>
 </div>
 <div class="domain-config">
-  <tabset>
+  <tabset class="underline-indicator" justified="true">
     <tab heading="User">
       <div ng-include="'app/domain/users/users.html'" ng-controller="UsersCtrl"></div>
     </tab>
