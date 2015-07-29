@@ -10,14 +10,35 @@ angular.module('httpMailWebClient')
         id: $scope.domain.id
       }).$promise
         .then(function (data) {
-          return $scope.AliasList = data.result;
+          return $scope.aliasList = data.result;
         });
     };
 
     listAlias();
 
-    $scope.addAlias = function () {
+    $scope.isAddBCC = false;
 
+    $scope.addAlias = function () {
+      $scope.isAddAlias = true;
+      $scope.newAlias = {};
+    };
+
+    $scope.saveAlias = function () {
+      if($scope.newAliasForm.$invalid) {
+        return;
+      }
+
+      $scope.listPromise = APIService.addAlias(angular.extend({
+        id: $scope.domain.id
+      }, $scope.newAlias)).$promise
+        .then(function () {
+          $scope.isAddAlias = false;
+          return listAlias();
+        })
+    };
+
+    $scope.cancel = function () {
+      $scope.isAddAlias = false;
     };
 
     $scope.deleteAlias = function (alias) {

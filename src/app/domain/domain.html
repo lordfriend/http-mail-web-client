@@ -14,13 +14,13 @@
       <div ng-include="'app/domain/dkim/dkim.html'" ng-controller="DkimCtrl"></div>
     </tab>
     <tab heading="BCC Settings" ng-if="level >= 5">
-      <div ng-include="'app/domain/bcc/bcc.html'" ng-controller="BccCtrl"></div>
+      <div ng-include="'app/domain/bcc/bcc.html'"></div>
     </tab>
     <tab heading="Alias Settings" ng-if="level >= 5">
-      <div ng-include="'app/domain/alias/alias.html'" ng-controller="AliasCtrl"></div>
+      <div ng-include="'app/domain/alias/alias.html'"></div>
     </tab>
     <tab heading="Transport Settings" ng-if="level >= 5">
-      <div ng-include="'app/domain/transport/transport.html'" ng-controller="TransportCtrl"></div>
+      <div ng-include="'app/domain/transport/transport.html'"></div>
     </tab>
   </tabset>
 </div>

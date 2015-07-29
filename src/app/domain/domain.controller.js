@@ -4,10 +4,15 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('DomainCtrl', function($scope, domain) {
+  .controller('DomainCtrl', function($scope, domain, APIService) {
     $scope.domain = domain;
     $scope.setActionBarTitle(domain.name);
     $scope.level = localStorage.level || 1;
+
+    APIService.servers().$promise
+      .then(function (data) {
+        $scope.serverList = data.result;
+      });
 
     $scope.deleteDomain = function () {
       $modal.open({

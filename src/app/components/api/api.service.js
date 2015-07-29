@@ -33,7 +33,7 @@ angular.module('httpMailWebClient')
       deleteUser: {method: 'DELETE', params: {resource: 'user'}, isArray: false},
 
       // servers
-      servers: {method: 'GET', params: {resource: 'server'}, isArray: false},
+      servers: {method: 'GET', params: {resource: 'server'}, isArray: false, cache: true},
 
       // DKIM settings
       getDKIM: {method: 'GET', params: {resource: 'dkim'}, isArray: false},

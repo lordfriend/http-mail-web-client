@@ -5,6 +5,7 @@
 
 angular.module('httpMailWebClient')
   .controller('BccCtrl', function($scope, APIService, $modal) {
+
     var listBCC = function() {
       return APIService.listBCC({
         id: $scope.domain.id
@@ -14,8 +15,28 @@ angular.module('httpMailWebClient')
         });
     };
 
-    $scope.AddBCC = function () {
+    $scope.isAddBCC = false;
 
+    $scope.AddBCC = function () {
+      $scope.isAddBCC = true;
+      $scope.newBCC = {};
+    };
+
+    $scope.saveBCC = function () {
+      if($scope.newBCCForm.$invalid) {
+        return;
+      }
+      $scope.listPromise = APIService.addBCC(angular.extend({
+        id: $scope.domain.id
+      }, $scope.newBCC)).$promise
+        .then(function () {
+          $scope.isAddBCC = false;
+          return listBCC();
+        });
+    };
+
+    $scope.cancel = function () {
+      $scope.isAddBCC = false;
     };
 
     $scope.deleteBCC = function (bcc) {

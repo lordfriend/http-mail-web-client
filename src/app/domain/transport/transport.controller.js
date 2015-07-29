@@ -6,7 +6,9 @@
 angular.module('httpMailWebClient')
   .controller('TransportCtrl', function($scope, APIService) {
     var listTransport = function () {
-      return APIService.listTransport().$promise
+      return APIService.listTransport({
+        id: $scope.domain.id
+      }).$promise
         .then(function (data) {
           return $scope.transportList = data.result;
         });
@@ -14,8 +16,27 @@ angular.module('httpMailWebClient')
 
     listTransport();
 
+    $scope.isAddTransport = false;
     $scope.addTransport = function () {
+      $scope.isAddTransport = true;
+      $scope.newTransport = {};
+    };
 
+    $scope.saveTransport = function () {
+      if($scope.newTransportForm.$invalid) {
+        return;
+      }
+      $scope.listPromise = APIService.addTransport(angular.extend({
+        id: $scope.domain.id
+      }, $scope.newTransport)).$promise
+        .then(function () {
+          $scope.isAddTransport = false;
+          return listTransport();
+        });
+    };
+
+    $scope.cancel = function () {
+      $scope.isAddTransport = false;
     };
 
     $scope.deleteTransport = function (transport) {

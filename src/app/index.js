@@ -10,7 +10,8 @@ angular.module('httpMailWebClient', [
   'ui.bootstrap',
   'ngPasswordComplexify',
   'ngMockE2E',
-  'validation.match'
+  'validation.match',
+  'nya.bootstrap.select'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
     $stateProvider
