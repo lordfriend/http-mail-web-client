@@ -1,31 +1,51 @@
-<form class="form-horizontal" novalidate name="dkimForm">
-  <div class="form-group" ng-show="!editing">
-    <div class="col-sm-2 col-sm-offset-6">
-      <button class="btn btn-default" type="button">Update DKIM</button>
+<div ng-controller="DkimCtrl">
+  <div class="row">
+    <div class="col-sm-12">
+      <p>DomainKeys Identified Mail (DKIM) is a method for E-mail authentication, allowing a person who receives email to verify that the message actually comes from the domain that it claims to have come from. The need for this type of authentication arises because spam often has forged headers.</p>
+      <p>DKIM uses public-key cryptography to allow the sender to electronically sign legitimate emails in a way that can be verified by recipients.</p>
+      <p>DKIM also guards against tampering with mail, offering almost end-to-end integrity from a signing to a verifying Mail transfer agent (MTA).</p>
+      <p><a href="http://en.wikipedia.org/wiki/DKIM" target="_blank">Read more on Wikipedia</a></p>
     </div>
   </div>
-  <div class="form-group">
-    <label for="selector" class="control-label col-sm-2">Selector</label>
-    <div class="col-sm-8">
-      <div class="form-control-static" ng-show="!editing">
-        {{dkim.selector}}
+  <div class="row" ng-show="currentDKIM">
+    <div class="col-sm-12">
+      <table class="table dkim-table">
+        <caption>Current DKIM Setting</caption>
+        <tbody>
+        <tr>
+          <td>Domain</td>
+          <td>{{currentDKIM.domain}}</td>
+        </tr>
+        <tr>
+          <td>Selector</td>
+          <td>{{currentDKIM.selector}}</td>
+        </tr>
+        <tr>
+          <td>Private Key</td>
+          <td>{{currentDKIM.key_sha512}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <form class="form-horizontal" novalidate name="dkimForm">
+    <div class="form-group" ng-class="{'has-error': dkimForm.selector.$invalid}">
+      <label for="selector" class="control-label col-sm-2 col-lg-1">Selector</label>
+      <div class="col-sm-4">
+        <input id="selector" name="selector" type="text" class="form-control" ng-model="DKIM.selector" required/>
       </div>
-      <input type="text" id="selector" name="selector" ng-model="selector" ng-required="editing"/>
     </div>
-  </div>
-  <div class="form-group">
-    <label for="privateKey" class="control-label col-sm-2">Key</label>
-    <div class="col-sm-8">
-      <div class="form-control-static" ng-show="!editing">
-        {{dkim.key_sha512}}
+    <div class="form-group" ng-class="{'has-error': dkimForm.privateKey.$invalid}">
+      <label for="privateKey" class="control-label col-sm-2 col-lg-1">Private Key</label>
+      <div class="col-sm-8">
+        <textarea name="privateKey" id="privateKey" cols="25" rows="6" class="form-control" ng-model="DKIM.private_key" required></textarea>
       </div>
-      <textarea name="privateKey" id="privateKey" cols="30" rows="10" class="form-control"
-                ng-model="privateKey" ng-show="editing" ng-required="editing"></textarea>
     </div>
-  </div>
-  <div class="form-group" ng-show="editing">
-    <div class="col-sm-2 col-sm-offset-6">
-      <button class="btn btn-default" type="button" ng-click="updateDkim()">Save</button>
+    <div class="form-group">
+      <div class="col-sm-2 col-sm-offset-2 col-lg-offset-1">
+        <button class="btn btn-default" type="button" data-ng-disabled="dkimForm.$invalid" ng-click="updateDkim()">Save</button>
+      </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>

@@ -11,17 +11,16 @@ angular.module('httpMailWebClient')
         id: $scope.domain.id
       }).$promise
         .then(function(data) {
-          $scope.selector = data.selector;
-          return $scope.dkim = data;
+          return $scope.currentDKIM = data;
         });
     };
 
+    $scope.DKIM = {};
 
     $scope.updateDKIM = function () {
-      $scope.dkimPromise = APIService.updateDKIM({
-        selector: $scope.dkim.selector,
-        private_key: $scope.private_key
-      }).$promise
+      $scope.dkimPromise = APIService.updateDKIM(angular.extend({
+        id: $scope.domain.id
+      }, $scope.DKIM)).$promise
         .then(function() {
           return listDKIM();
         })
