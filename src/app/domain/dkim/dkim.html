@@ -30,13 +30,13 @@
   </div>
 
   <form class="form-horizontal" novalidate name="dkimForm">
-    <div class="form-group" ng-class="{'has-error': dkimForm.selector.$invalid}">
+    <div class="form-group" ng-class="{'has-error': dkimForm.selector.$invalid && dkimForm.selector.$dirty}">
       <label for="selector" class="control-label col-sm-2 col-lg-1">Selector</label>
       <div class="col-sm-4">
         <input id="selector" name="selector" type="text" class="form-control" ng-model="DKIM.selector" required/>
       </div>
     </div>
-    <div class="form-group" ng-class="{'has-error': dkimForm.privateKey.$invalid}">
+    <div class="form-group" ng-class="{'has-error': dkimForm.privateKey.$invalid && dkimForm.selector.$dirty}">
       <label for="privateKey" class="control-label col-sm-2 col-lg-1">Private Key</label>
       <div class="col-sm-8">
         <textarea name="privateKey" id="privateKey" cols="25" rows="6" class="form-control" ng-model="DKIM.private_key" required></textarea>
