@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('TransportCtrl', function($scope, APIService) {
+  .controller('TransportCtrl', function($scope, APIService, $modal) {
     var listTransport = function () {
       return APIService.listTransport({
         id: $scope.domain.id

@@ -178,7 +178,7 @@ $nav-menu-shadow-length: 15px;
   height: $actionbar-height;
   background-color: #fff;
   border-bottom: 1px solid #ddd;
-  color: rgb(105, 108, 111);
+  color: #696C6F;
 }
 
 .actionbar-title {
@@ -190,6 +190,21 @@ $nav-menu-shadow-length: 15px;
     margin: 0;
     padding: 0;
     line-height: $actionbar-height;
+  }
+}
+
+.action-menu {
+  float: right;
+  height: $actionbar-height;
+  padding-left: 40px;
+  padding-right: 40px;
+  .menu-item {
+    display: block;
+    float: right;
+    height: $actionbar-height;
+    line-height: $actionbar-height;
+    color: #696C6F;
+    font-size: 20px;
   }
 }
 

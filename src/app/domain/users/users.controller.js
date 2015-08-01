@@ -61,6 +61,7 @@ angular.module('httpMailWebClient')
       var modalInstance = $modal.open({
         templateUrl: 'app/components/add-user-dialog/add-user-dialog.html',
         controller: 'AddUserDialogCtrl',
+        controllerAs: 'vm',
         animation: true,
         resolve: {
           domain: function() {

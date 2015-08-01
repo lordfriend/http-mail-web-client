@@ -3,46 +3,138 @@
     <h3 class="modal-title">Add New User</h3>
   </div>
   <div class="modal-body">
-    <form class="form-horizontal" name="addUserForm" autocomplete="off">
-      <input type="text" name="fakeName" style="display: none"/>
-      <input type="password" name="fakePassword" style="display: none"/>
-      <p>
-        Please add your user (e.g. john@{{domain.name}}) and Password, password should contains at least 8 characters.
-      </p>
-      <div class="form-group" ng-class="{'has-error': addUserForm.userName.$invalid && addUserForm.userName.$dirty}">
-        <div class="col-sm-6">
-          <div class="input-group">
-            <input type="text" name="userName" class="form-control" ng-model="userName" placeholder="user name" required/>
-            <span class="input-group-addon">@{{domain.name}}</span>
+    <div ng-switch="vm.step">
+      <div ng-switch-when="0">
+        <form class="form-horizontal" name="vm.addUserForm" autocomplete="off">
+          <input type="text" name="fakeName" style="display: none"/>
+          <input type="password" name="fakePassword" style="display: none"/>
+          <p>
+            Please add your user (e.g. john@{{vm.domain.name}}) and Password, password should contains at least 8 characters.
+          </p>
+          <div class="form-group" ng-class="{'has-error': vm.addUserForm.userName.$invalid && vm.addUserForm.userName.$dirty}">
+            <div class="col-sm-6">
+              <div class="input-group">
+                <input type="text" name="userName" class="form-control" ng-model="vm.userName" placeholder="user name" required/>
+                <span class="input-group-addon">@{{vm.domain.name}}</span>
+              </div>
+            </div>
+            <div class="sm-6">
+              <p class="form-control-static" ng-show="vm.addUserForm.userName.$invalid && vm.addUserForm.userName.$dirty">User name empty</p>
+            </div>
+          </div>
+          <div class="form-group" ng-class="{'has-error': (vm.addUserForm.password.$error.required || vm.addUserForm.password.$error['pw-complexity']) && vm.addUserForm.password.$dirty }">
+            <div class="col-sm-6">
+              <input type="password" name="password" class="form-control" ng-model="vm.password" placeholder="Password" ng-password-complexify="30" required/>
+            </div>
+            <div class="col-sm-5">
+              <ng-password-complexify-meter password="vm.password"></ng-password-complexify-meter>
+            </div>
+          </div>
+          <p class="text-danger" ng-show="vm.addUserForm.password.$error['pw-complexity'] && vm.addUserForm.password.$dirty ">Password Not Strong Enough</p>
+          <p class="text-danger" ng-show="vm.addUserForm.password.$error.required && vm.addUserForm.password.$dirty ">Password is required</p>
+          <p class="help-block">8 characters is a minimum, To make a password strong enough, including uppercase, lowercase and even special characters</p>
+          <div class="form-group" ng-class="{'has-error': vm.addUserForm.passwordConfirm.$error.match && vm.addUserForm.passwordConfirm.$dirty }">
+            <div class="col-sm-6">
+              <input type="password" name="passwordConfirm" class="form-control" ng-model="vm.passwordConfirm" placeholder="Confirm Password" ng-password-complexify="30" match="vm.password" required/>
+            </div>
+            <div class="col-sm-5">
+              <p class="form-control-static text-danger" ng-show="vm.addUserForm.passwordConfirm.$error.match && vm.addUserForm.passwordConfirm.$dirty ">Password not match</p>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div ng-switch-when="1">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Configure your email client or email provider which support POP3/IMAP import</p>
+            <p>Add account <mark>{{vm.userName + '@' + vm.domain.name}}</mark> in your email client and use it as username.</p>
+            <p>You can choose one of the following server as the POP3/IMAP server, and the PORT is <mark>995</mark></p>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Server domain</th>
+                <th>Region</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="server in vm.serverList">
+                <td>{{server.domain_name}}</td>
+                <td>{{server.region_mark}}</td>
+              </tr>
+              </tbody>
+            </table>
+            <p>If you are not familiar with configuring your client, follow the guides</p>
+            <accordion>
+              <accordion-group heading="Gmail Settings Guide">
+                <ol>
+                  <li>Open your Gmail account.</li>
+                  <li>At the top right, click <i class="fa fa-gear"></i>.</li>
+                  <li>Select Settings.</li>
+                  <li>Select the <strong>Accounts and import</strong> tab.</li>
+                  <li>In the "Check mail from other accounts(using POP3)" section, <strong>Add a POP3 mail account your own</strong></li>
+                  <li>Enter the full email address <mark>{{vm.userName + '@' + vm.domain.name}}</mark>, then click <strong>Next Step</strong></li>
+                  <li>Modify the "Username" to the full email address <mark>{{vm.userName + '@' + vm.domain.name}}</mark>.</li>
+                  <li>Enter your password.</li>
+                  <li>Modify the "POP Server", you can choose one server from the table above, it's recommended using the server which has the highest priority configured in your DNS records.</li>
+                  <li>Modify "Port" to <mark>995</mark>.</li>
+                  <li>Check the <strong>Leave a copy of retrieved message on the server</strong>.</li>
+                  <li>Check the <strong>Always use a secure connection (SSL) when retrieving mail</strong>.</li>
+                  <li>Optionally, You can also check the <strong>Label incoming messages: {{vm.userName + '@' + vm.domain.name}}</strong></li>
+                  <li>Click <strong>Add Account</strong>. If you get an error message while getting set up, click the <strong>Show error details</strong> link to find out more about what's not working.</li>
+                  <li>Once your account has been added successfully, you'll be asked if you want to be able to send mail as this address. This lets you compose messages in Gmail, but have them appear to be sent from <mark>{{vm.userName + '@' + vm.domain.name}}</mark></li>
+                  <li>Gmail will check your other account for new emails periodically. You can see when the other account was last checked from the "Accounts and import" tab.</li>
+                </ol>
+              </accordion-group>
+            </accordion>
           </div>
         </div>
-        <div class="sm-6">
-          <p class="form-control-static" ng-show="addUserForm.userName.$invalid && addUserForm.userName.$dirty">User name empty</p>
+      </div>
+
+      <div ng-switch-when="2">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>To send mail as <mark>{{vm.userName + '@' + vm.domain.name}}</mark>. You also need to configure you SMTP settings on client or email Provider</p>
+            <p>You can choose one of the following server as the SMTP server, and the PORT is <mark>587</mark></p>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Server domain</th>
+                <th>Region</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="server in vm.serverList">
+                <td>{{server.domain_name}}</td>
+                <td>{{server.region_mark}}</td>
+              </tr>
+              </tbody>
+            </table>
+            <p>If you are not familiar with configuring your client, follow the guides</p>
+            <accordion>
+              <accordion-group heading="Gmail Settings Guide">
+                <ol>
+                  <li>Click the gear in the top right <i class="fa fa-gear"></i>.</li>
+                  <li>Select <strong>Settings</strong>.</li>
+                  <li>Click the <strong>Accounts and Import tab</strong>.</li>
+                  <li>Under Send mail as, click <strong>Add another email address</strong>.</li>
+                  <li>In the 'Email address' field, enter your name and alternate email address <mark>{{vm.userName + '@' + vm.domain.name}}</mark></li>
+                  <li>Check the <strong>Treat as an alias.</strong></li>
+                  <li>Enter the STMP server, choose an server from the table above, select Port <mark>587</mark></li>
+                  <li>Enter password.</li>
+                  <li>Select <strong>Secured connection using TLS(recommended)</strong>.</li>
+                  <li>Click <strong>Add Account</strong>.</li>
+                  <li>Wait for a few minutes, The confirmation email will be sent to your Gmail inbox, open that email then click the link in the message or enter the confirmation code last step of the dialog. </li>
+                </ol>
+              </accordion-group>
+            </accordion>
+          </div>
         </div>
       </div>
-      <div class="form-group" ng-class="{'has-error': (addUserForm.password.$error.required || addUserForm.password.$error['pw-complexity']) && addUserForm.password.$dirty }">
-        <div class="col-sm-6">
-          <input type="password" name="password" class="form-control" ng-model="password" placeholder="Password" ng-password-complexify="30" required/>
-        </div>
-        <div class="col-sm-5">
-          <ng-password-complexify-meter password="password"></ng-password-complexify-meter>
-        </div>
-      </div>
-      <p class="text-danger" ng-show="addUserForm.password.$error['pw-complexity'] && addUserForm.password.$dirty ">Password Not Strong Enough</p>
-      <p class="text-danger" ng-show="addUserForm.password.$error.required && addUserForm.password.$dirty ">Password is required</p>
-      <p class="help-block">8 characters is a minimum, To make a password strong enough, including uppercase, lowercase and even special characters</p>
-      <div class="form-group" ng-class="{'has-error': addUserForm.passwordConfirm.$error.match && addUserForm.passwordConfirm.$dirty }">
-        <div class="col-sm-6">
-          <input type="password" name="passwordConfirm" class="form-control" ng-model="passwordConfirm" placeholder="Confirm Password" ng-password-complexify="30" match="password" required/>
-        </div>
-        <div class="col-sm-5">
-          <p class="form-control-static text-danger" ng-show="addUserForm.passwordConfirm.$error.match && addUserForm.passwordConfirm.$dirty ">Password not match</p>
-        </div>
-      </div>
-    </form>
+    </div>
+
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="addUser()" ng-disabled="addUserForm.$invalid">Add User</button>
-    <button class="btn btn-default" ng-click="$dismiss()">Cancel</button>
+    <button class="btn btn-primary" ng-hide="vm.step >= 2" ng-click="vm.next()" data-ng-disabled="vm.addUserForm.$invalid && vm.step === 0">{{vm.step === 0 ? 'Add User': 'Next'}}</button>
+    <button class="btn btn-default" ng-click="vm.finish()">{{vm.step === 0 ? 'Cancel': 'Finish'}}</button>
   </div>
 </promise-loader>

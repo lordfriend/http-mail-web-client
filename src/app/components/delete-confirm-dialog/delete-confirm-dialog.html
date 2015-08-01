@@ -9,12 +9,12 @@
     </p>
     <div class="form-group" ng-if="confirmText">
       <div class="col-sm-12">
-        <input type="text" class="form-control" ng-model="userConfirmText"/>
+        <input type="text" class="form-control" ng-model="userInput.confirmText"/>
       </div>
     </div>
   </form>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-danger" data-ng-disabled="userConfirmText!==confirmText.text && confirmText" ng-click="$close()">I'm sure to delete</button>
+  <button class="btn btn-danger" data-ng-disabled="userInput.confirmText!==confirmText.text && confirmText" ng-click="$close()">I'm sure to delete</button>
   <button class="btn btn-default" ng-click="$dismiss()">Cancel</button>
 </div>

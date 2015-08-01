@@ -8,7 +8,7 @@ angular.module('httpMailWebClient')
     }
 
     var getDomainList = function() {
-      $scope.domainsPromise = APIService.domains({}).$promise
+      return APIService.domains({}).$promise
         .then(function(data) {
           return $scope.domains = data.result;
         });
@@ -35,9 +35,47 @@ angular.module('httpMailWebClient')
 
     $scope.logout = SessionManager.logout;
 
+    $scope.deleteDomain = function (domain) {
+      $scope.domainsPromise = $modal.open({
+        templateUrl: 'app/components/delete-confirm-dialog/delete-confirm-dialog.html',
+        controller: 'DeleteConfirmDialogCtrl',
+        animation: true,
+        resolve: {
+          title: function () {
+            return 'Are you ABSOLUTELY Sure?'
+          },
+          content: function() {
+            return 'This action <strong>CANNOT</strong> be undone. This will permanently delete the domain <strong>' +
+              domain.name + '</strong> and all users, emails under the domain.';
+          },
+          confirmText: function() {
+            return {
+              name: 'domain',
+              text: domain.name
+            };
+          }
+        }
+      }).result
+        .then(function () {
+          return APIService.deleteDomain({
+            id: domain.id
+          });
+        }, angular.noop)
+        .then(function () {
+          $state.go('home.overview');
+        })
+        .then(function () {
+          return getDomainList();
+        });
+    };
+
     $scope.setActionBarTitle = function(title) {
       $scope.actionBarTitle = title;
     };
 
-    getDomainList();
+    $scope.setActionMenu = function (menu) {
+      $scope.actionMenu = menu;
+    };
+
+    $scope.domainsPromise = getDomainList();
   });

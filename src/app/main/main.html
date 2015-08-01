@@ -49,9 +49,14 @@
   </div>
   <div class="main-view-wrapper">
     <div class="main-view" ui-view=""></div>
-    <header class="view-actionbar">
+    <header class="view-actionbar clearfix">
       <div class="actionbar-title">
         <h3>{{actionBarTitle}}</h3>
+      </div>
+      <div class="action-menu">
+        <a title="{{item.name}}" class="menu-item" ng-repeat="item in actionMenu" ng-click="item.action()">
+          <i class="fa" ng-class="item.icon"></i>
+        </a>
       </div>
     </header>
     <footer class="footer">

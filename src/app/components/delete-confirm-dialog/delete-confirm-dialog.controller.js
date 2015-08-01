@@ -12,4 +12,6 @@ angular.module('httpMailWebClient')
      * @type {name,text}
      */
     $scope.confirmText = confirmText;
+
+    $scope.userInput = {};
   });
