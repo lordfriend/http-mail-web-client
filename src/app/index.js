@@ -9,7 +9,6 @@ angular.module('httpMailWebClient', [
   'ui.router',
   'ui.bootstrap',
   'ngPasswordComplexify',
-  'ngMockE2E',
   'validation.match',
   'nya.bootstrap.select'
 ])

@@ -4,7 +4,8 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('RegisterCtrl', function($scope, APIService, $q) {
+  .controller('RegisterCtrl', function($scope, APIService, $q, $state) {
+    $scope.user = {};
     $scope.register = function() {
       if($scope.registerForm.$invalid) {
         return;
@@ -12,8 +13,8 @@ angular.module('httpMailWebClient')
       $scope.registerPromise = APIService.register($scope.user).$promise
         .then(function() {
           return APIService.login({
-            username: $scope.username,
-            password: $scope.password
+            username: $scope.user.username,
+            password: $scope.user.password
           }).$promise;
         })
         .then(function(data) {

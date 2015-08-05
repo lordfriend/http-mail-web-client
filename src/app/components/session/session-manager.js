@@ -2,7 +2,7 @@
  * Created by bob on 7/26/15.
  */
 angular.module('httpMailWebClient')
-  .service('SessionManager', function(APIService, $state) {
+  .service('SessionManager', function(APIService, $state, $q) {
 
     this.logout = function () {
       return APIService.logout({}).$promise

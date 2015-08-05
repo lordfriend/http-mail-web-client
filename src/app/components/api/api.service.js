@@ -16,7 +16,7 @@ angular.module('httpMailWebClient')
       // login
       validateToken: {method: 'GET', params: {resource: 'login'}, isArray: false},
       login: {method: 'POST', params: {resource: 'login'}, isArray: false},
-      logout: {method: 'POST', params: {resource: 'login'}, isArray: false},
+      logout: {method: 'DELETE', params: {resource: 'login'}, isArray: false},
       updatePassword: {method: 'PUT', params: {resource: 'login'}, isArray: false},
 
       // domains

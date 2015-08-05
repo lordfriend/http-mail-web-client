@@ -25,7 +25,7 @@ angular.module('httpMailWebClient')
         return;
       }
       var user = {
-        user: vm.userName,
+        username: vm.userName,
         password: vm.password
       };
 
