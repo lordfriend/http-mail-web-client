@@ -7,45 +7,51 @@
       <p><a href="http://en.wikipedia.org/wiki/DKIM" target="_blank">Read more on Wikipedia</a></p>
     </div>
   </div>
-  <div class="row" ng-show="currentDKIM">
-    <div class="col-sm-12">
-      <table class="table dkim-table">
-        <caption>Current DKIM Setting</caption>
-        <tbody>
-        <tr>
-          <td>Domain</td>
-          <td>{{currentDKIM.domain}}</td>
-        </tr>
-        <tr>
-          <td>Selector</td>
-          <td>{{currentDKIM.selector}}</td>
-        </tr>
-        <tr>
-          <td>Private Key</td>
-          <td>{{currentDKIM.key_sha512}}</td>
-        </tr>
-        </tbody>
-      </table>
+  <promise-loader promise="dkimPromise" backdrop="true">
+    <div class="row" ng-show="currentDKIM">
+      <div class="col-sm-12">
+        <table class="table dkim-table">
+          <caption>Current DKIM Setting</caption>
+          <tbody>
+          <tr>
+            <td>Domain</td>
+            <td>{{currentDKIM.domain}}</td>
+          </tr>
+          <tr>
+            <td>Selector</td>
+            <td>{{currentDKIM.selector}}</td>
+          </tr>
+          <tr>
+            <td>Fingerprints</td>
+            <td>
+              <abbr title="sha512 hash value of private key">
+                {{currentDKIM.key_sha512}}
+              </abbr>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
 
-  <form class="form-horizontal" novalidate name="dkimForm">
-    <div class="form-group" ng-class="{'has-error': dkimForm.selector.$invalid && dkimForm.selector.$dirty}">
-      <label for="selector" class="control-label col-sm-2 col-lg-1">Selector</label>
-      <div class="col-sm-4">
-        <input id="selector" name="selector" type="text" class="form-control" ng-model="DKIM.selector" required/>
+    <form class="form-horizontal" novalidate name="dkimForm">
+      <div class="form-group" ng-class="{'has-error': dkimForm.selector.$invalid && dkimForm.selector.$dirty}">
+        <label for="selector" class="control-label col-sm-2 col-lg-1">Selector</label>
+        <div class="col-sm-4">
+          <input id="selector" name="selector" type="text" class="form-control" ng-model="DKIM.selector" required/>
+        </div>
       </div>
-    </div>
-    <div class="form-group" ng-class="{'has-error': dkimForm.privateKey.$invalid && dkimForm.selector.$dirty}">
-      <label for="privateKey" class="control-label col-sm-2 col-lg-1">Private Key</label>
-      <div class="col-sm-8">
-        <textarea name="privateKey" id="privateKey" cols="25" rows="6" class="form-control" ng-model="DKIM.private_key" required></textarea>
+      <div class="form-group" ng-class="{'has-error': dkimForm.privateKey.$invalid && dkimForm.selector.$dirty}">
+        <label for="privateKey" class="control-label col-sm-2 col-lg-1">Private Key</label>
+        <div class="col-sm-8">
+          <textarea name="privateKey" id="privateKey" cols="25" rows="6" class="form-control" ng-model="DKIM.private_key" required></textarea>
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-2 col-sm-offset-2 col-lg-offset-1">
-        <button class="btn btn-default" type="button" data-ng-disabled="dkimForm.$invalid" ng-click="updateDkim()">Save</button>
+      <div class="form-group">
+        <div class="col-sm-2 col-sm-offset-2 col-lg-offset-1">
+          <button class="btn btn-default" type="button" data-ng-disabled="dkimForm.$invalid || dkimForm.$pristine" ng-click="updateDKIM()">Save</button>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </promise-loader>
 </div>

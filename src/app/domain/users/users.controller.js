@@ -63,6 +63,7 @@ angular.module('httpMailWebClient')
         controller: 'AddUserDialogCtrl',
         controllerAs: 'vm',
         animation: true,
+        backdrop: 'static',
         resolve: {
           domain: function() {
             return $scope.domain;

@@ -1,54 +1,56 @@
 <div class="row">
   <div class="col-sm-12">
     <div class="panel panel-default">
-      <div class="panel-body">
-        <h4>Change Password</h4>
-        <alert type="danger" close="hideAlert = true" ng-hide="hideAlert">{{errorMessage}}</alert>
-        <form class="form-horizontal" ng-submit="changePassword()" name="changePasswordForm" autocomplete="off" novalidate>
-          <!-- to disable chrome autofills -->
-          <input type="text" name="fakeName" style="display: none"/>
-          <input type="password" name="fakePass" style="display: none"/>
-          <!-- end -->
-          <div class="form-group" ng-class="{'has-error': changePasswordForm.inviteCode.$invalid && changePasswordForm.inviteCode.$dirty}">
-            <label for="inviteCode" class="control-label col-lg-2 col-sm-3">Invite Code</label>
-            <div class="col-sm-5">
-              <input type="text" id="inviteCode" class="form-control" ng-model="pass.inviteCode" name="inviteCode" required/>
+      <promise-loader promise="changePasswordProimse" backdrop="true">
+        <div class="panel-body">
+          <h4>Change Password</h4>
+          <alert type="danger" close="hideAlert = true" ng-hide="hideAlert">{{errorMessage}}</alert>
+          <form class="form-horizontal" ng-submit="changePassword()" name="changePasswordForm" autocomplete="off" novalidate>
+            <!-- to disable chrome autofills -->
+            <input type="text" name="fakeName" style="display: none"/>
+            <input type="password" name="fakePass" style="display: none"/>
+            <!-- end -->
+            <div class="form-group" ng-class="{'has-error': changePasswordForm.inviteCode.$invalid && changePasswordForm.inviteCode.$dirty}">
+              <label for="inviteCode" class="control-label col-lg-2 col-sm-3">Invite Code</label>
+              <div class="col-sm-5">
+                <input type="text" id="inviteCode" class="form-control" ng-model="pass.inviteCode" name="inviteCode" required/>
+              </div>
+              <div class="col-sm-5">
+                <p class="form-control-static text-danger" ng-show="changePasswordForm.inviteCode.$error.required && changePasswordForm.inviteCode.$dirty">
+                  Invite code empty
+                </p>
+              </div>
             </div>
-            <div class="col-sm-5">
-              <p class="form-control-static text-danger" ng-show="changePasswordForm.inviteCode.$error.required && changePasswordForm.inviteCode.$dirty">
-                Invite code empty
-              </p>
+            <div class="form-group" ng-class="{'has-error': changePasswordForm.password.$invalid && changePasswordForm.password.$dirty}">
+              <label for="newPass" class="control-label col-lg-2 col-sm-3">New Password</label>
+              <div class="col-sm-5">
+                <input name="password" type="password" id="newPass" class="form-control" ng-model="pass.password" required ng-password-complexify="30"/>
+              </div>
+              <div class="col-sm-2" ng-show="changePasswordForm.password.$dirty">
+                <ng-password-complexify-meter password="pass.password"></ng-password-complexify-meter>
+              </div>
+              <div class="col-sm-3">
+                <p class="text-danger form-control-static" ng-show="changePasswordForm.password.$error['pw-complexity'] && changePasswordForm.password.$dirty ">Password Not Strong Enough</p>
+              </div>
             </div>
-          </div>
-          <div class="form-group" ng-class="{'has-error': changePasswordForm.password.$invalid && changePasswordForm.password.$dirty}">
-            <label for="newPass" class="control-label col-lg-2 col-sm-3">New Password</label>
-            <div class="col-sm-5">
-              <input name="password" type="password" id="newPass" class="form-control" ng-model="pass.password" required ng-password-complexify="30"/>
-            </div>
-            <div class="col-sm-2" ng-show="changePasswordForm.password.$dirty">
-              <ng-password-complexify-meter password="pass.password"></ng-password-complexify-meter>
-            </div>
-            <div class="col-sm-3">
-              <p class="text-danger form-control-static" ng-show="changePasswordForm.password.$error['pw-complexity'] && changePasswordForm.password.$dirty ">Password Not Strong Enough</p>
-            </div>
-          </div>
 
-          <div class="form-group" ng-class="{'has-error': changePasswordForm.passwordConfirm.$invalid && changePasswordForm.passwordConfirm.$dirty}">
-            <label for="confirmPass" class="control-label col-lg-2 col-sm-3">Confirm Password</label>
-            <div class="col-sm-5">
-              <input type="password" id="confirmPass" name="passwordConfirm" class="form-control" ng-model="pass.confirmPassword" required/>
+            <div class="form-group" ng-class="{'has-error': changePasswordForm.passwordConfirm.$invalid && changePasswordForm.passwordConfirm.$dirty}">
+              <label for="confirmPass" class="control-label col-lg-2 col-sm-3">Confirm Password</label>
+              <div class="col-sm-5">
+                <input type="password" id="confirmPass" name="passwordConfirm" class="form-control" ng-model="pass.confirmPassword" required/>
+              </div>
+              <div class="col-sm-3">
+                <p class="form-control-static text-danger" ng-show="changePasswordForm.passwordConfirm.$error.match && changePasswordForm.passwordConfirm.$dirty ">Password not match</p>
+              </div>
             </div>
-            <div class="col-sm-3">
-              <p class="form-control-static text-danger" ng-show="changePasswordForm.passwordConfirm.$error.match && changePasswordForm.passwordConfirm.$dirty ">Password not match</p>
+            <div class="form-group">
+              <div class="col-sm-5 col-lg-offset-2 col-sm-offset-3">
+                <button class="btn btn-default" type="submit" data-ng-disabled="changePasswordForm.$invalid">Submit</button>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-5 col-lg-offset-2 col-sm-offset-3">
-              <button class="btn btn-default" type="submit" data-ng-disabled="changePasswordForm.$invalid">Submit</button>
-            </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      </promise-loader>
     </div>
   </div>
 </div>

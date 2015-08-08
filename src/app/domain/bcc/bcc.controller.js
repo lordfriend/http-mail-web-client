@@ -70,5 +70,5 @@ angular.module('httpMailWebClient')
         });
     };
 
-    listBCC();
+    $scope.listPromise = listBCC();
   });

@@ -26,9 +26,13 @@ angular.module('httpMailWebClient')
       if($scope.newTransportForm.$invalid) {
         return;
       }
-      $scope.listPromise = APIService.addTransport(angular.extend({
+      var reqParams = angular.extend({
         id: $scope.domain.id
-      }, $scope.newTransport)).$promise
+      }, $scope.newTransport);
+
+      reqParams.source += '@';
+
+      $scope.listPromise = APIService.addTransport(reqParams).$promise
         .then(function () {
           $scope.isAddTransport = false;
           return listTransport();
