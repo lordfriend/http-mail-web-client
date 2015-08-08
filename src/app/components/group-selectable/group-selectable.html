@@ -1,0 +1,19 @@
+<div class="group-selectable">
+  <button class="btn btn-default" ng-click="expanded =! expanded"></button>
+  <div class="group-list-container" ng-show="expanded">
+    <ul class="group-list">
+      <li class="group-item" ng-repeat="region in regionList" ng-class="{active: region.id === ngModelCtrl.$viewValue}">
+        <a ng-click="pickRegion(region)">
+          <span>{{region.name}}</span>
+        </a>
+        <ul class="server-list">
+          <li class="server-item" ng-repeat="server in region.server" ng-class="{active: server.id === ngModelCtrl.$viewValue}">
+            <a ng-click="pickServer(server)">
+              {{server.name}}
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
