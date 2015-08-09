@@ -97,7 +97,7 @@ $nav-menu-shadow-length: 15px;
   overflow-y: scroll;
   padding-top: 52px;
   padding-bottom: $footer-height + $nav-menu-shadow-length;
-
+  font-family: 'Roboto Condensed', sans-serif;
   &::-webkit-scrollbar {
     width: 0;
   }
@@ -209,6 +209,7 @@ $nav-menu-shadow-length: 15px;
 }
 
 .filter-input-wrapper {
+  font-family: 'Roboto Condensed', sans-serif;
   float: left;
   > input {
     width: 150px;
