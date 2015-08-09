@@ -59,8 +59,8 @@ angular.module('httpMailWebClient')
         .then(function () {
           return APIService.deleteDomain({
             id: domain.id
-          });
-        }, angular.noop)
+          }).$promise;
+        })
         .then(function () {
           $state.go('home.overview');
         })
