@@ -21,7 +21,7 @@
     </div>
     <div class="sidebar-nav-wrapper">
       <div class="sidebar-nav-menu">
-        <promise-loader promise="domainsPromise" backdrop="true" min-height="100%">
+        <promise-loader promise="domainsPromise" min-height="100%" show-toast-error="true">
           <ul class="nav domain-list">
             <li ng-repeat="domain in domains | filter:domainQuery track by domain.id" ui-sref-active="active">
               <a ui-sref="home.domain({id: domain.id})">

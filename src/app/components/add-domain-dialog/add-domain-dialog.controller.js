@@ -16,6 +16,10 @@ angular.module('httpMailWebClient')
     vm.step = 0;
 
     vm.addDomain = function() {
+      if(vm.addDomainForm.$invalid) {
+        vm.addDomainForm.domainName.$setDirty();
+        return;
+      }
       vm.addDomainPromise = APIService.createDomain({
         domain: vm.domainName.trim()
       }).$promise

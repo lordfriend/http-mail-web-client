@@ -1,4 +1,4 @@
-
+<promise-loader promise="vm.addDomainPromise" backdrop="true" show-error-toast="true" min-height="100%">
   <div class="modal-header">
     <button type="button" class="close" ng-click="$dismiss()">
       <span>&times;</span>
@@ -9,13 +9,17 @@
   <div class="modal-body">
     <div ng-switch="vm.step">
       <div ng-switch-when="0">
-        <form class="form-horizontal">
+        <form class="form-horizontal" name="vm.addDomainForm">
           <p>
             Please add your domain (like example.com)
           </p>
-          <div class="form-group">
+          <div class="form-group" ng-class="{'has-error': vm.addDomainForm.domainName.$invalid && vm.addDomainForm.domainName.$dirty}">
             <div class="col-sm-12">
-              <input type="text" class="form-control" ng-model="vm.domainName"/>
+              <input name="domainName" type="text" class="form-control" ng-model="vm.domainName" required ng-pattern="/^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62}$/" ng-model-options="{updateOn: 'blur'}"/>
+            </div>
+            <div class="col-sm-12">
+              <p class="text-danger" ng-show="vm.addDomainForm.domainName.$error.required && vm.addDomainForm.domainName.$dirty">Domain name cannot be empty</p>
+              <p class="text-danger" ng-show="vm.addDomainForm.domainName.$error.pattern && vm.addDomainForm.domainName.$dirty">Domain name invalid</p>
             </div>
           </div>
         </form>
@@ -77,3 +81,4 @@
     <button class="btn btn-primary" ng-hide="vm.step >= 2" ng-click="vm.next()">{{vm.step === 0 ? 'Add Domain': 'Next'}}</button>
     <button class="btn btn-default" ng-click="vm.finish()">{{vm.step === 0 ? 'Cancel' : 'Finish'}}</button>
   </div>
+</promise-loader>

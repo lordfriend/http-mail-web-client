@@ -5,13 +5,13 @@
     </div>
     <button class="btn btn-default" ng-click="addTransport()">Add Transport</button>
   </form>
-  <promise-loader promise="listPromise" backdrop="true">
+  <promise-loader promise="listPromise" backdrop="true" show-error-toast="true">
     <table class="table table-hover">
       <thead>
       <tr>
         <th>Source</th>
         <th>Destination</th>
-        <th>Region</th>
+        <th>Selector</th>
         <th>operation</th>
       </tr>
       </thead>
@@ -27,10 +27,11 @@
           <input type="text" name="destination" class="form-control" placeholder="Transport destination" ng-model="newTransport.destination" required/>
         </td>
         <td ng-class="{'has-error': newTransportForm.region.$invalid}">
-          <ol name="region" class="nya-bs-select" ng-model="newTransport.region" required>
-            <li nya-bs-option="server in serverList track by $index" value="server.region_mark">
+          <ol class="nya-bs-select" ng-model="newTransport.region" name="region" required>
+            <li nya-bs-option="selector in selectorList group by selector.group" value="selector.id">
+              <span class="dropdown-header">{{$group}}</span>
               <a>
-                <span>{{server.region_mark}}</span>
+                {{selector.id}}
                 <span class="check-mark fa fa-check"></span>
               </a>
             </li>

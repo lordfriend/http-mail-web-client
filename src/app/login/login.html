@@ -1,6 +1,6 @@
 <div class="login-container">
   <div class="login-dialog panel panel-default">
-    <promise-loader promise="loginPromise" backdrop="true" min-height="100%">
+    <promise-loader promise="loginPromise" backdrop="true" min-height="100%" show-error-toast="false">
       <div class="panel-body">
         <form class="form-horizontal" name="loginForm" id="login_form" ng-submit="login()">
           <div class="alert alert-danger" ng-show="loginForm.$pristine && invalidUserCredential">Incorrect username or password</div>

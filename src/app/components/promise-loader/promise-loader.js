@@ -20,27 +20,62 @@ angular.module('httpMailWebClient')
           var content = tElement.children().detach();
           var templateObj = $(template);
           tElement.append(templateObj);
-          templateObj.children('.content-wrapper').append(content);
+          templateObj.children('.content-wrapper').append(content)
+
           return function promiseLoaderLink ($scope, $element, $attrs) {
             var loaderBackdrop = $element.find('.loader-backdrop');
+            var errorWrapper = $element.find('.error-wrapper');
+            var errorToast = errorWrapper.find('.error-toast');
+            var errorText = errorWrapper.find('.error-text');
             var minHeight = $attrs.minHeight || '300px';
+
+            var showErrorToast = !!$attrs.showErrorToast;
+
             loaderBackdrop.css({'min-height': minHeight});
 
             if($attrs.backdrop === 'true') {
               loaderBackdrop.addClass('show-backdrop');
             }
+            if(showErrorToast) {
+              errorToast.on('click', function (event) {
+                errorWrapper.hide();
+              });
+            }
 
-            $scope.$watch($attrs.promise, function(newValue) {
-              if(newValue) {
+            $scope.$watch($attrs.promise, function(newPromise) {
+              if(newPromise && newPromise.then) {
+                if(showErrorToast) {
+                  errorWrapper.hide();
+                  errorText.empty();
+                }
                 loaderBackdrop.show();
-                newValue
+                newPromise
                   .then(function(result) {
                     loaderBackdrop.hide();
                     return result;
                   }, function(reason){
                     loaderBackdrop.hide();
+                    console.log(reason);
+                    if(reason && showErrorToast) {
+                      if(reason.data && reason.data.title) {
+                        errorText.text(reason.data.title);
+                      } else if(reason.status !== 0) {
+                        errorText.text(reason.statusText);
+                      } else {
+                        errorText.text('Connection Error!');
+                      }
+
+                      errorWrapper.show();
+                    }
+
                     return $q.reject(reason);
                   });
+              }
+            });
+
+            $scope.$on('destroy', function () {
+              if(showErrorToast) {
+                errorToast.off('click');
               }
             });
           }

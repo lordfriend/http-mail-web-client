@@ -1,4 +1,4 @@
-<promise-loader promise="addUserPromise" min-height="100%" backdrop="true">
+<promise-loader promise="vm.addUserPromise" min-height="100%" backdrop="true" show-error-toast="true">
   <div class="modal-header">
     <h3 class="modal-title">Add New User</h3>
   </div>
@@ -14,12 +14,13 @@
           <div class="form-group" ng-class="{'has-error': vm.addUserForm.userName.$invalid && vm.addUserForm.userName.$dirty}">
             <div class="col-sm-6">
               <div class="input-group">
-                <input type="text" name="userName" class="form-control" ng-model="vm.userName" placeholder="user name" required/>
+                <input type="text" name="userName" class="form-control" ng-model="vm.userName" placeholder="user name" required ng-pattern="/^[a-z0-9A-Z_.+]{1,60}$/"/>
                 <span class="input-group-addon">@{{vm.domain.name}}</span>
               </div>
             </div>
             <div class="sm-6">
-              <p class="form-control-static" ng-show="vm.addUserForm.userName.$invalid && vm.addUserForm.userName.$dirty">User name empty</p>
+              <p class="form-control-static" ng-show="vm.addUserForm.userName.$error.required && vm.addUserForm.userName.$dirty">Username empty</p>
+              <p class="form-control-static" ng-show="vm.addUserForm.userName.$error.pattern && vm.addUserForm.userName.$dirty">Invalid Username</p>
             </div>
           </div>
           <div class="form-group" ng-class="{'has-error': (vm.addUserForm.password.$error.required || vm.addUserForm.password.$error['pw-complexity']) && vm.addUserForm.password.$dirty }">
@@ -30,7 +31,7 @@
               <ng-password-complexify-meter password="vm.password"></ng-password-complexify-meter>
             </div>
           </div>
-          <p class="text-danger" ng-show="vm.addUserForm.password.$error['pw-complexity'] && vm.addUserForm.password.$dirty ">Password Not Strong Enough</p>
+          <p class="text-danger" ng-show="vm.addUserForm.password.$error['pw-complexity'] && vm.addUserForm.password.$dirty && !vm.addUserForm.password.$error.required">Password Not Strong Enough</p>
           <p class="text-danger" ng-show="vm.addUserForm.password.$error.required && vm.addUserForm.password.$dirty ">Password is required</p>
           <p class="help-block">8 characters is a minimum, To make a password strong enough, including uppercase, lowercase and even special characters</p>
           <div class="form-group" ng-class="{'has-error': vm.addUserForm.passwordConfirm.$error.match && vm.addUserForm.passwordConfirm.$dirty }">

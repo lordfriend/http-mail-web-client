@@ -2,7 +2,7 @@
  * account controller
  */
 angular.module('httpMailWebClient')
-  .controller('AccountCtrl', function($scope, APIService, $state) {
+  .controller('AccountCtrl', function($scope, APIService, $state, $q) {
     'use strict';
 
     $scope.setActionBarTitle('Account Settings');
@@ -20,9 +20,14 @@ angular.module('httpMailWebClient')
         .then(function() {
           $state.go('login');
         }, function(resp) {
-          $scope.errorMessage = resp.statusText;
+          if(resp.data && resp.data.title) {
+            $scope.errorMessage = resp.data.title;
+          } else {
+            $scope.errorMessage = resp.statusText;
+          }
           $scope.hideAlert = false;
-          return resp.statusText;
+          //resp.errorMessage = $scope.errorMessage;
+          //return $q.reject(resp);
         });
     };
   });

@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('BccCtrl', function($scope, APIService, $modal) {
+  .controller('BccCtrl', function($scope, APIService, $modal, $q) {
 
     var listBCC = function() {
       return APIService.listBCC({
@@ -12,6 +12,8 @@ angular.module('httpMailWebClient')
       }).$promise
         .then(function(data) {
           return $scope.bccList = data.result;
+        }, function(resp) {
+          return $q.reject(resp);
         });
     };
 

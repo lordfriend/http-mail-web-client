@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-12">
     <div class="panel panel-default">
-      <promise-loader promise="changePasswordProimse" backdrop="true">
+      <promise-loader promise="changePasswordProimse" backdrop="true" show-error-toast="false">
         <div class="panel-body">
           <h4>Change Password</h4>
           <alert type="danger" close="hideAlert = true" ng-hide="hideAlert">{{errorMessage}}</alert>
@@ -37,7 +37,7 @@
             <div class="form-group" ng-class="{'has-error': changePasswordForm.passwordConfirm.$invalid && changePasswordForm.passwordConfirm.$dirty}">
               <label for="confirmPass" class="control-label col-lg-2 col-sm-3">Confirm Password</label>
               <div class="col-sm-5">
-                <input type="password" id="confirmPass" name="passwordConfirm" class="form-control" ng-model="pass.confirmPassword" required/>
+                <input type="password" id="confirmPass" name="passwordConfirm" class="form-control" ng-model="pass.confirmPassword" required match="pass.password"/>
               </div>
               <div class="col-sm-3">
                 <p class="form-control-static text-danger" ng-show="changePasswordForm.passwordConfirm.$error.match && changePasswordForm.passwordConfirm.$dirty ">Password not match</p>
