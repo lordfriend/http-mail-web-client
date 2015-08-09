@@ -28,7 +28,7 @@ angular.module('httpMailWebClient')
           var content = tElement.children().detach();
           var templateObj = $(template);
           tElement.append(templateObj);
-          templateObj.children('.content-wrapper').append(content)
+          templateObj.children('.content-wrapper').append(content);
 
           return function promiseLoaderLink ($scope, $element, $attrs) {
             var loaderBackdrop = $element.find('.loader-backdrop');
