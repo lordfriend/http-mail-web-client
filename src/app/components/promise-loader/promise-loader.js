@@ -4,18 +4,26 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .run(function($http, $templateCache) {
-    $http.get('app/components/promise-loader/promise-loader.html')
-      .then(function(result) {
-        $templateCache.put('app/components/promise-loader/promise-loader.html', result.data);
-      }, angular.noop);
-  })
-  .directive('promiseLoader', function($q, $templateCache) {
+  .directive('promiseLoader', function($q) {
     return {
       restrict: 'E',
       compile: function promiseLoaderCompile (tElement) {
 
-        var template = $templateCache.get('app/components/promise-loader/promise-loader.html');
+        var template = '<div class="promise-loader">' +
+                          '<div class="content-wrapper"></div>' +
+                          '<div class="loader-backdrop">' +
+                            '<div class="loader sk-spinner sk-spinner-three-bounce">' +
+                              '<div class="sk-bounce1"></div>' +
+                              '<div class="sk-bounce2"></div>' +
+                              '<div class="sk-bounce3"></div>' +
+                            '</div>' +
+                          '</div>' +
+                          '<div class="error-wrapper">' +
+                            '<div class="error-toast">' +
+                              '<span class="error-text"></span>' +
+                            '</div>' +
+                          '</div>' +
+                        '</div>';
         if(template) {
           var content = tElement.children().detach();
           var templateObj = $(template);
