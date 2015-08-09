@@ -14,7 +14,7 @@
           <div class="form-group" ng-class="{'has-error': vm.addUserForm.userName.$invalid && vm.addUserForm.userName.$dirty}">
             <div class="col-sm-6">
               <div class="input-group">
-                <input type="text" name="userName" class="form-control" ng-model="vm.userName" placeholder="user name" required ng-pattern="/^[a-z0-9A-Z_.+]{1,60}$/"/>
+                <input type="text" name="userName" class="form-control" ng-model="vm.userName" placeholder="user name" required ng-pattern="/^[a-z0-9A-Z_][a-z0-9A-Z_.+]{0,60}$/"/>
                 <span class="input-group-addon">@{{vm.domain.name}}</span>
               </div>
             </div>
