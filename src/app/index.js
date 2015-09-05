@@ -10,7 +10,8 @@ angular.module('httpMailWebClient', [
   'ui.bootstrap',
   'ngPasswordComplexify',
   'validation.match',
-  'nya.bootstrap.select'
+  'nya.bootstrap.select',
+  'ngPromiseLoader'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
     $stateProvider
@@ -49,11 +50,8 @@ angular.module('httpMailWebClient', [
         templateUrl: 'app/domain/domain.html',
         controller: 'DomainCtrl',
         resolve: {
-          domain: function(APIService, $stateParams) {
-            return APIService.getDomain({id: $stateParams.id}).$promise
-              .then(function(data) {
-                return data.result;
-              })
+          domain: function(DomainService, $stateParams) {
+            return DomainService.getDomainById($stateParams.id);
           }
         }
       });

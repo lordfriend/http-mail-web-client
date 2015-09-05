@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('BccCtrl', function($scope, APIService, $modal, $q) {
+  .controller('BccCtrl', function($scope, APIService, $modal, PromiseErrorHandler) {
 
     var listBCC = function() {
       return APIService.listBCC({
@@ -12,8 +12,6 @@ angular.module('httpMailWebClient')
       }).$promise
         .then(function(data) {
           return $scope.bccList = data.result;
-        }, function(resp) {
-          return $q.reject(resp);
         });
     };
 
@@ -34,7 +32,8 @@ angular.module('httpMailWebClient')
         .then(function () {
           $scope.isAddBCC = false;
           return listBCC();
-        });
+        })
+        .catch(PromiseErrorHandler.network);
     };
 
     $scope.cancel = function () {
@@ -59,18 +58,20 @@ angular.module('httpMailWebClient')
         }
       });
 
-      $scope.listPromise = modalInstance.result
+      modalInstance.result
         .then(function() {
           // delete user
-          return APIService.deleteBCC({
+          $scope.listPromise = APIService.deleteBCC({
             id: $scope.domain.id,
             uid: bcc.id
-          }).$promise;
-        })
-        .then(function() {
-          return listBCC();
+          }).$promise
+            .then(function() {
+              return listBCC();
+            })
+            .catch(PromiseErrorHandler.network);
         });
     };
 
-    $scope.listPromise = listBCC();
+    $scope.listPromise = listBCC()
+      .catch(PromiseErrorHandler.network);
   });

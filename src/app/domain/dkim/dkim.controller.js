@@ -4,7 +4,8 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('DkimCtrl', function($scope, APIService) {
+  .controller('DkimCtrl', function($scope, APIService, PromiseErrorHandler) {
+
 
     var listDKIM = function () {
       return APIService.getDKIM({
@@ -29,10 +30,13 @@ angular.module('httpMailWebClient')
       }, $scope.DKIM)).$promise
         .then(function() {
           return listDKIM();
-        }, function () {
+        }, function (reason) {
           $scope.dkimForm.$setDirty();
-        });
+          return $q.reject(reason);
+        })
+        .catch(PromiseErrorHandler.network);
     };
 
-    $scope.dkimPromise = listDKIM();
+    $scope.dkimPromise = listDKIM()
+      .catch(PromiseErrorHandler.network);
   });

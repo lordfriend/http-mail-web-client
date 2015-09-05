@@ -3,7 +3,7 @@
     <div class="panel-heading">
       <h4 class="text-center">Register</h4>
     </div>
-    <promise-loader promise="registerPromise" backdrop="true" min-height="100%">
+    <div promise-loader="registerPromise" backdrop="true">
       <div class="panel-body">
         <form class="form-horizontal" name="registerForm" id="login_form" ng-submit="register()">
           <div class="form-group" ng-class="{'has-error': registerForm.username.$invalid && registerForm.username.$dirty}">
@@ -41,6 +41,6 @@
           </div>
         </form>
       </div>
-    </promise-loader>
+    </div>
   </div>
 </div>

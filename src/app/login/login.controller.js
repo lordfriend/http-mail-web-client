@@ -3,7 +3,7 @@
  */
 'use strict';
 angular.module('httpMailWebClient')
-  .controller('LoginCtrl', function($scope, APIService, $state, $q) {
+  .controller('LoginCtrl', function($scope, APIService, $state) {
     $scope.invalidUserCredential = false;
     $scope.login = function () {
       if($scope.loginForm.$invalid) {
@@ -16,10 +16,16 @@ angular.module('httpMailWebClient')
           localStorage.setItem('level', data.level);
           $state.go('home.overview');
         }, function(reason) {
-          $scope.loginForm.$setPristine();
-          $scope.invalidUserCredential = true;
+          if(reason.status < 500 && reason.data) {
+            $scope.loginForm.$setPristine();
+            $scope.invalidUserCredential = true;
+            $scope.errorMessage = reason.data.title;
+          } else {
+            $scope.loginForm.$setPristine();
+            $scope.invalidUserCredential = true;
+            $scope.errorMessage = "Network Error";
+          }
           console.log(reason);
-          return $q.reject(reason);
         });
     };
   });

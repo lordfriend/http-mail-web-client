@@ -1,9 +1,9 @@
 <div class="login-container">
   <div class="login-dialog panel panel-default">
-    <promise-loader promise="loginPromise" backdrop="true" min-height="100%" show-error-toast="false">
+    <div promise-loader="loginPromise" backdrop="true">
       <div class="panel-body">
         <form class="form-horizontal" name="loginForm" id="login_form" ng-submit="login()">
-          <div class="alert alert-danger" ng-show="loginForm.$pristine && invalidUserCredential">Incorrect username or password</div>
+          <div class="alert alert-danger" ng-show="loginForm.$pristine && invalidUserCredential">{{errorMessage}}</div>
           <div class="form-group" ng-class="{'has-error': loginForm.username.$invalid && loginForm.username.$dirty}">
             <div class="col-sm-12">
               <input type="text" class="form-control" name="username" ng-model="user.username" placeholder="Username" required/>
@@ -23,7 +23,7 @@
           </div>
         </form>
       </div>
-    </promise-loader>
+    </div>
     <div class="panel-footer">
       <p class="text-center">
         <a ui-sref="register">Create Account</a>

@@ -23,7 +23,7 @@ angular.module('httpMailWebClient')
           localStorage.setItem('level', data.level);
           $state.go('home.overview');
         }, function(reason) {
-          return $q.reject(reason);
+          return $q.reject(new Error(reason.data.title));
         });
     }
   });

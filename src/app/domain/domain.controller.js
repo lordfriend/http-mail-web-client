@@ -4,8 +4,10 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('DomainCtrl', function($scope, domain, APIService) {
+  .controller('DomainCtrl', function($scope, APIService, domain) {
+
     $scope.domain = domain;
+
     $scope.setActionBarTitle(domain.name);
 
     $scope.setActionMenu([

@@ -4,7 +4,8 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('UsersCtrl', function($scope, APIService, $modal) {
+  .controller('UsersCtrl', function($scope, APIService, $modal, PromiseErrorHandler) {
+
     var refreshUserList = function () {
 
       return APIService.users({
@@ -16,7 +17,8 @@ angular.module('httpMailWebClient')
         });
     };
 
-    $scope.listPromise = refreshUserList();
+    $scope.listPromise = refreshUserList()
+      .catch(PromiseErrorHandler.network);
 
     $scope.userQuery = {
       email: ''
@@ -44,17 +46,19 @@ angular.module('httpMailWebClient')
         }
       });
 
-      $scope.listPromise = modalInstance.result
+      modalInstance.result
         .then(function() {
           // delete user
-          return APIService.deleteUser({
+          $scope.listPromise = APIService.deleteUser({
             id: $scope.domain.id,
             uid: user.id
-          }).$promise;
-        })
-        .then(function() {
-          return refreshUserList();
+          }).$promise
+            .then(function() {
+              return refreshUserList();
+            })
+            .catch(PromiseErrorHandler.network);
         });
+
     };
 
     $scope.addUser = function () {
@@ -71,8 +75,9 @@ angular.module('httpMailWebClient')
         }
       });
 
-      $scope.listPromise = modalInstance.result.then(function() {
-        return refreshUserList();
+      modalInstance.result.then(function() {
+        $scope.listPromise = refreshUserList()
+          .catch(PromiseErrorHandler.network);
       });
     };
 
@@ -90,8 +95,9 @@ angular.module('httpMailWebClient')
           }
         }
       });
-      $scope.listPromise = modalInstance.result.then(function() {
-        return refreshUserList();
+      modalInstance.result.then(function() {
+        $scope.listPromise = refreshUserList()
+          .catch(PromiseErrorHandler.network);
       });
     };
   });

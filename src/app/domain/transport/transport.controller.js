@@ -4,7 +4,8 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('TransportCtrl', function($scope, APIService, $modal) {
+  .controller('TransportCtrl', function($scope, APIService, $modal, PromiseErrorHandler) {
+
     var listTransport = function () {
       return APIService.listTransport({
         id: $scope.domain.id
@@ -14,7 +15,8 @@ angular.module('httpMailWebClient')
         });
     };
 
-    listTransport();
+    $scope.listPromise = listTransport()
+      .catch(PromiseErrorHandler.network);
 
     $scope.isAddTransport = false;
     $scope.addTransport = function () {
@@ -36,7 +38,8 @@ angular.module('httpMailWebClient')
         .then(function () {
           $scope.isAddTransport = false;
           return listTransport();
-        });
+        })
+        .catch(PromiseErrorHandler.network);
     };
 
     $scope.cancel = function () {
@@ -61,17 +64,19 @@ angular.module('httpMailWebClient')
         }
       });
 
-      $scope.listPromise = modalInstance.result
+      modalInstance.result
         .then(function() {
           // delete user
-          return APIService.deleteTransport({
+          $scope.listPromise = APIService.deleteTransport({
             id: $scope.domain.id,
             uid: transport.id
-          }).$promise;
-        })
-        .then(function() {
-          return listTransport();
+          }).$promise
+            .then(function() {
+              return listTransport();
+            })
+            .catch(PromiseErrorHandler.network);
         });
+
     };
 
 

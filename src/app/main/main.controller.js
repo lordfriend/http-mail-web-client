@@ -1,19 +1,11 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('MainCtrl', function ($scope, APIService, $state, $modal, SessionManager) {
+  .controller('MainCtrl', function ($scope, APIService, $state, $modal, SessionManager, DomainService, PromiseErrorHandler) {
     $scope.currentYear = new Date().getFullYear();
     if($scope.currentYear !== 2015) {
       $scope.currentYear = '2015 - ' + $scope.currentYear;
     }
-
-    var getDomainList = function() {
-      return APIService.domains({}).$promise
-        .then(function(data) {
-          return $scope.domains = data.result;
-        });
-    };
-
 
     $scope.domainQuery = {};
 
@@ -27,7 +19,11 @@ angular.module('httpMailWebClient')
       });
 
       modalInstance.result.then(function() {
-        getDomainList();
+        $scope.domainsPromise = DomainService.getDomainList(true)
+          .then(function(domains) {
+            $scope.domains = domains;
+          })
+          .catch(PromiseErrorHandler.network);
       }, angular.noop);
     };
 
@@ -36,7 +32,7 @@ angular.module('httpMailWebClient')
     $scope.logout = SessionManager.logout;
 
     $scope.deleteDomain = function (domain) {
-      $scope.domainsPromise = $modal.open({
+      $modal.open({
         templateUrl: 'app/components/delete-confirm-dialog/delete-confirm-dialog.html',
         controller: 'DeleteConfirmDialogCtrl',
         animation: true,
@@ -57,15 +53,16 @@ angular.module('httpMailWebClient')
         }
       }).result
         .then(function () {
-          return APIService.deleteDomain({
+          $scope.domainsPromise = APIService.deleteDomain({
             id: domain.id
-          }).$promise;
-        })
-        .then(function () {
-          $state.go('home.overview');
-        })
-        .then(function () {
-          return getDomainList();
+          }).$promise
+            .then(function () {
+              $state.go('home.overview');
+              return DomainService.getDomainList(true);
+            })
+            .then(function (domains) {
+              $scope.domains = domains;
+            }, PromiseErrorHandler.network);
         });
     };
 
@@ -77,5 +74,9 @@ angular.module('httpMailWebClient')
       $scope.actionMenu = menu;
     };
 
-    $scope.domainsPromise = getDomainList();
+    $scope.domainsPromise = DomainService.getDomainList(false)
+      .then(function(domains) {
+        $scope.domains = domains;
+      })
+      .catch(PromiseErrorHandler.network);
   });

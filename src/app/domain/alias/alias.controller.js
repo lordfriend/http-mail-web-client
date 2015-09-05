@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('httpMailWebClient')
-  .controller('AliasCtrl', function($scope, APIService, $modal) {
+  .controller('AliasCtrl', function($scope, APIService, $modal, PromiseErrorHandler) {
     var listAlias = function () {
       return APIService.listAlias({
         id: $scope.domain.id
@@ -14,7 +14,8 @@ angular.module('httpMailWebClient')
         });
     };
 
-    listAlias();
+    $scope.listPromise = listAlias()
+      .catch(PromiseErrorHandler.network);
 
     $scope.isAddBCC = false;
 
@@ -35,6 +36,7 @@ angular.module('httpMailWebClient')
           $scope.isAddAlias = false;
           return listAlias();
         })
+        .catch(PromiseErrorHandler.network);
     };
 
     $scope.cancel = function () {
@@ -59,16 +61,17 @@ angular.module('httpMailWebClient')
         }
       });
 
-      $scope.listPromise = modalInstance.result
+      modalInstance.result
         .then(function() {
           // delete user
-          return APIService.deleteAlias({
+          $scope.listPromise = APIService.deleteAlias({
             id: $scope.domain.id,
             uid: alias.id
-          }).$promise;
-        })
-        .then(function() {
-          return listAlias();
+          }).$promise
+            .then(function() {
+              return listAlias();
+            })
+            .catch(PromiseErrorHandler.network);
         });
     };
   });
