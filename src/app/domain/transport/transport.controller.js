@@ -31,8 +31,11 @@ angular.module('httpMailWebClient')
       var reqParams = angular.extend({
         id: $scope.domain.id
       }, $scope.newTransport);
-
-      reqParams.source += '@';
+      if(reqParams.source) {
+        reqParams.source += '@';
+      } else {
+        reqParams.source = '';
+      }
 
       $scope.listPromise = APIService.addTransport(reqParams).$promise
         .then(function () {
