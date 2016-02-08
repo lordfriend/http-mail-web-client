@@ -29,6 +29,9 @@ angular.module('httpMailWebClient')
         return;
       }
 
+      if(!$scope.newAlias.source) {
+        $scope.newAlias.source = '';
+      }
       $scope.listPromise = APIService.addAlias(angular.extend({
         id: $scope.domain.id
       }, $scope.newAlias)).$promise

@@ -18,7 +18,7 @@
       <tr ng-form="newAliasForm" ng-show="isAddAlias">
         <td class="input-group-td" ng-class="{'has-error': newAliasForm.source.$invalid}">
           <div class="input-group">
-            <input type="text" name="source" class="form-control" placeholder="Alias Source" ng-model="newAlias.source" required ng-pattern="/^[a-z0-9A-Z_][a-z0-9A-Z_.+]{0,60}$/"/>
+            <input type="text" name="source" class="form-control" placeholder="Alias Source" ng-model="newAlias.source" ng-pattern="/^[a-z0-9A-Z_][a-z0-9A-Z_.+]{0,60}$/"/>
             <span class="input-group-addon">@{{domain.name}}</span>
           </div>
         </td>

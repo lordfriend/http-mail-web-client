@@ -26,6 +26,9 @@ angular.module('httpMailWebClient')
       if($scope.newBCCForm.$invalid) {
         return;
       }
+      if(!$scope.newBCC.source) {
+        $scope.newBCC.source = '';
+      }
       $scope.listPromise = APIService.addBCC(angular.extend({
         id: $scope.domain.id
       }, $scope.newBCC)).$promise
