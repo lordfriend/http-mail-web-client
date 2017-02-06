@@ -4,4 +4,4 @@ bower_components/
 .tmp/
 dist/
 .idea
-config/
+config/proxy.js

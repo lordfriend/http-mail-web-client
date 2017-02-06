@@ -1,0 +1,6 @@
+/**
+ * Created by bob on 2/8/16.
+ */
+module.exports = {
+  target: 'http://example.com/api'
+};

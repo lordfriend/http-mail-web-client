@@ -19,7 +19,7 @@
   "white": true,
   "validthis": true,
   "globals": {
-    "angular": false,
+    "angular": true,
     // Angular Mocks
     "inject": false,
     "module": false,
@@ -30,6 +30,7 @@
     "beforeEach": false,
     "after": false,
     "afterEach": false,
-    "expect": false
+    "expect": false,
+    "localStorage": true
   }
 }
